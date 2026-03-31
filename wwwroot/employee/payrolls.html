@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Payrolls - Smart HR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/employee/employee.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="employee-portal-body" data-page="payrolls">
+  <div class="employee-shell" id="employeeShell">
+    <aside class="employee-sidebar">
+      <div class="employee-sidebar-brand">
+        <div class="employee-brand-icon"><i class="bi bi-person-vcard"></i></div>
+        <div class="employee-brand-copy">
+          <h2>Employee</h2>
+          <p>Self-Service Portal</p>
+        </div>
+      </div>
+
+      <div class="employee-user-card">
+        <span>Welcome</span>
+        <strong id="employeeSidebarName">Employee</strong>
+        <small id="employeeSidebarMeta">Loading...</small>
+      </div>
+
+      <nav class="employee-nav">
+        <a href="/employee/overview.html" class="employee-nav-link" data-nav="overview">
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </a>
+        <a href="/employee/attendances.html" class="employee-nav-link" data-nav="attendances">
+          <i class="bi bi-calendar2-check-fill"></i><span>My Attendances</span>
+        </a>
+        <a href="/employee/payrolls.html" class="employee-nav-link" data-nav="payrolls">
+          <i class="bi bi-cash-stack"></i><span>My Payrolls</span>
+        </a>
+        <a href="/employee/leaves.html" class="employee-nav-link" data-nav="leaves">
+          <i class="bi bi-journal-check"></i><span>My Leave Requests</span>
+        </a>
+        <a href="/employee/profile.html" class="employee-nav-link" data-nav="profile">
+          <i class="bi bi-person-lines-fill"></i><span>Profile & Password</span>
+        </a>
+      </nav>
+
+      <button id="employeeLogoutBtn" class="btn btn-danger employee-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </aside>
+
+    <div class="employee-backdrop" id="employeeBackdrop"></div>
+
+    <main class="employee-main">
+      <div class="employee-topbar">
+        <button id="employeeMenuToggle" class="employee-icon-btn" type="button">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="employee-topbar-meta">
+          <span class="employee-topbar-chip">Employee Portal</span>
+          <h1>My Payrolls</h1>
+        </div>
+
+        <a href="/" class="btn btn-outline-primary employee-home-btn">
+          <i class="bi bi-house-door-fill"></i>
+          Home
+        </a>
+      </div>
+
+      
+<section class="employee-card mb-4">
+  <div class="card-title-row">
+    <div>
+      <h3>My Payrolls</h3>
+      <p class="card-subtitle">Review salary records, compare trends across months, and export your filtered payroll view.</p>
+    </div>
+    <div class="mini-request-stats" id="employeePayrollStats"></div>
+  </div>
+
+  <div class="row g-3">
+    <div class="col-12 col-md-3">
+      <label class="form-label">Month</label>
+      <input id="payrollMonth" type="number" min="1" max="12" class="form-control" />
+    </div>
+    <div class="col-12 col-md-3">
+      <label class="form-label">Year</label>
+      <input id="payrollYear" type="number" min="2000" max="2100" class="form-control" />
+    </div>
+    <div class="col-12 col-md-3">
+      <label class="form-label">Search</label>
+      <input id="payrollSearchInput" type="text" class="form-control" placeholder="Month, year, salary..." />
+    </div>
+    <div class="col-12 col-md-3">
+      <label class="form-label">Page Size</label>
+      <select id="payrollPageSize" class="form-select">
+        <option value="5">5 rows</option>
+        <option value="8" selected>8 rows</option>
+        <option value="12">12 rows</option>
+        <option value="20">20 rows</option>
+      </select>
+    </div>
+    <div class="col-12 d-flex gap-2 flex-wrap">
+      <button id="payrollFilterBtn" class="btn btn-primary"><i class="bi bi-funnel"></i> Apply Filters</button>
+      <button id="payrollResetBtn" class="btn btn-outline-secondary"><i class="bi bi-arrow-counterclockwise"></i> Reset</button>
+      <button id="payrollExportCsvBtn" class="btn btn-outline-success"><i class="bi bi-file-earmark-spreadsheet"></i> Export CSV</button>
+      <button id="payrollExportPrintBtn" class="btn btn-outline-dark"><i class="bi bi-printer"></i> Print / PDF</button>
+    </div>
+  </div>
+</section>
+
+<section class="employee-kpi-grid mb-4">
+  <article class="portal-stat-card stat-blue"><div class="portal-stat-icon"><i class="bi bi-cash-stack"></i></div><div><span>Records</span><strong id="payrollKpiRecords">0</strong></div></article>
+  <article class="portal-stat-card stat-green"><div class="portal-stat-icon"><i class="bi bi-wallet2"></i></div><div><span>Total Net</span><strong id="payrollKpiTotalNet">0</strong></div></article>
+  <article class="portal-stat-card stat-purple"><div class="portal-stat-icon"><i class="bi bi-graph-up-arrow"></i></div><div><span>Average Net</span><strong id="payrollKpiAverageNet">0</strong></div></article>
+  <article class="portal-stat-card stat-orange-soft"><div class="portal-stat-icon"><i class="bi bi-trophy"></i></div><div><span>Highest Net</span><strong id="payrollKpiHighestNet">0</strong></div></article>
+  <article class="portal-stat-card stat-cyan employee-span-2"><div class="portal-stat-icon"><i class="bi bi-calendar-range"></i></div><div><span>Current Focus</span><strong id="payrollKpiFocus">Current month snapshot</strong></div></article>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <article class="employee-card"><div class="card-title-row"><div><h3>Net Salary Trend</h3><p class="card-subtitle">See how your take-home salary moves across filtered payroll records.</p></div></div><div class="employee-chart-box"><canvas id="employeePayrollTrendChart"></canvas></div></article>
+  <article class="employee-card"><div class="card-title-row"><div><h3>Salary Composition</h3><p class="card-subtitle">Compare base salary, total bonus, and total deduction in the current filtered view.</p></div></div><div class="employee-chart-box"><canvas id="employeePayrollCompositionChart"></canvas></div></article>
+  <article class="employee-card"><div class="card-title-row"><div><h3>Payroll Highlights</h3><p class="card-subtitle">Readable snapshot for speaking about your payroll history during a demo.</p></div></div><div id="employeePayrollHighlights" class="employee-timeline-list"></div></article>
+</section>
+
+<section class="employee-card">
+  <div class="table-responsive">
+    <table class="table employee-table mb-0">
+      <thead>
+        <tr>
+          <th>Month</th>
+          <th>Base Salary</th>
+          <th>Bonus</th>
+          <th>Deduction</th>
+          <th>Net Salary</th>
+          <th>Presence</th>
+          <th>Leave Days</th>
+        </tr>
+      </thead>
+      <tbody id="payrollTableBody"></tbody>
+    </table>
+  </div>
+  <div id="employeePayrollPaging" class="mt-3"></div>
+</section>
+
+<section class="employee-story-block mt-4">
+  <div class="story-grid single-image">
+    <div class="story-copy">
+      <span class="mini-chip">Payroll Notes</span>
+      <h3>Understand salary components better</h3>
+      <p>The payroll page now combines filters, KPI cards, charts, and export actions so your self-service experience feels closer to a real employee portal.</p>
+    </div>
+    <div class="story-image-stack">
+      <img src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=900&auto=format&fit=crop" alt="Payroll review" />
+    </div>
+  </div>
+</section>
+
+    </main>
+  </div>
+
+  <script src="/employee/employee.js"></script>
+</body>
+</html>

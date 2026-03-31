@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Schedules - Smart HR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-portal-body" data-page="schedules">
+  <div class="admin-shell" id="adminShell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand"><div class="brand-icon"><i class="bi bi-building"></i></div><div><h2>Smart HR</h2><p id="sidebarRoleSubtitle">Operations</p></div></div>
+      <div class="sidebar-user"><span>Signed in as</span><strong id="sidebarUsername">User</strong><small id="sidebarWorkspaceLabel">Workspace</small></div>
+      <nav class="sidebar-nav">
+        <a href="/admin/overview.html" class="sidebar-link" data-nav="overview"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a>
+        <a href="/admin/employees.html" class="sidebar-link" data-nav="employees"><i class="bi bi-people-fill"></i><span>Employees</span></a>
+        <a href="/admin/attendances.html" class="sidebar-link" data-nav="attendances"><i class="bi bi-calendar2-check-fill"></i><span>Attendances</span></a>
+        <a href="/admin/payrolls.html" class="sidebar-link" data-nav="payrolls"><i class="bi bi-cash-stack"></i><span>Payrolls</span></a>
+        <a href="/admin/leaves.html" class="sidebar-link" data-nav="leaves"><i class="bi bi-journal-check"></i><span>Leaves</span></a>
+        <a href="/admin/departments.html" class="sidebar-link" data-nav="departments"><i class="bi bi-diagram-3-fill"></i><span>Departments</span></a>
+        <a href="/admin/reports.html" class="sidebar-link" data-nav="reports"><i class="bi bi-bar-chart-fill"></i><span>Reports</span></a>
+      </nav>
+      <button id="logoutBtn" class="btn btn-danger sidebar-logout"><i class="bi bi-box-arrow-right"></i> Logout</button>
+    </aside>
+    <main class="admin-main">
+      <div class="topbar"><div class="topbar-left"><div class="topbar-meta"><span class="topbar-chip">Scheduling</span></div></div><div class="topbar-right"></div></div>
+      <div id="pageErrorHost"></div>
+      <section class="ops-hero">
+        <div class="hero-summary">
+          <span class="hero-tag">Scheduling</span>
+          <h1>Shift & Schedule Management</h1>
+          <p id="pageRoleHint">Build reusable shift templates, assign them by work date, and keep locked rows visible for operational governance.</p>
+          <div class="note-list">
+            <div class="note-item"><i class="bi bi-lightning-charge-fill"></i><span>Shift catalog and daily assignments now live in one cleaner operations workspace.</span></div>
+            <div class="note-item"><i class="bi bi-diagram-3-fill"></i><span>Wide tables keep schedule rows readable when departments, notes, and lock states grow.</span></div>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <div class="ops-kpi-grid">
+            <div class="ops-kpi"><span>Shift catalog</span><strong>6</strong></div>
+            <div class="ops-kpi"><span>Daily assignments</span><strong>Live</strong></div>
+          </div>
+          <div class="data-hero-panel">
+            <h3>Operations controls</h3>
+            <p>Keep actions beside the schedule workspace instead of scattering them across the page.</p>
+            <div class="ops-actions" style="margin-top:16px;"><button class="btn btn-outline-secondary" id="refreshSchedulesBtn"><i class="bi bi-arrow-clockwise"></i> Refresh</button><button class="btn btn-primary" id="addShiftBtn"><i class="bi bi-plus-circle"></i> Add Shift</button><button class="btn btn-success" id="addScheduleBtn"><i class="bi bi-calendar-plus"></i> Add Schedule</button></div>
+          </div>
+          <div id="schedulePageMessage" class="small text-danger"></div>
+        </div>
+      </section>
+      <section class="ops-two-col">
+        <section class="dashboard-panel soft-panel">
+          <div class="section-heading section-heading-wrap"><div><h3>Shift Catalog</h3><p class="text-muted">Build reusable shift templates for morning, evening, flexible, and overnight operations.</p></div></div>
+          <div class="compact-table-wrap"><table class="table smart-table table-soft"><thead><tr><th>Code</th><th>Name</th><th>Time</th><th>Hours</th><th>Status</th><th>Action</th></tr></thead><tbody id="shiftTableBody"></tbody></table></div>
+        </section>
+        <section class="dashboard-panel soft-panel">
+          <div class="section-heading section-heading-wrap"><div><h3>Schedule Assignments</h3><p class="text-muted">Assign employees to shifts by work date, then lock rows that should no longer be changed.</p></div></div>
+          <div class="compact-table-wrap"><table class="table smart-table table-soft"><thead><tr><th>Date</th><th>Employee</th><th>Department</th><th>Shift</th><th>Locked</th><th>Notes</th><th>Action</th></tr></thead><tbody id="scheduleTableBody"></tbody></table></div>
+        </section>
+      </section>
+      <section class="equal-card-grid">
+        <article class="section-card accent-purple visual-story-card"><div class="card-head"><div><h3>Scheduling Story</h3><p>Use a visual block to explain roster coverage and rotating-shift design in demos.</p></div></div><div class="note-photo"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="Scheduling workspace" /></div></article>
+        <article class="section-card accent-green"><div class="card-head"><div><h3>Why this layout works better</h3><p>Tables, actions, and state are now grouped by business purpose.</p></div></div><div class="inline-metric-list"><div class="inline-metric-item"><i class="bi bi-check2-circle"></i><span>Shift actions stay near the shift catalog.</span></div><div class="inline-metric-item"><i class="bi bi-check2-circle"></i><span>Schedule assignments get the wider table because the data is longer.</span></div><div class="inline-metric-item"><i class="bi bi-check2-circle"></i><span>The workspace keeps room for notes, screenshots, and thesis explanation panels.</span></div></div></article>
+      </section>
+    </main>
+  <div class="modal fade" id="shiftModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Shift</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="shiftIdInput"><div class="row g-3"><div class="col-md-6"><label class="form-label">Code</label><input id="shiftCodeInput" class="form-control" autocomplete="off"></div><div class="col-md-6"><label class="form-label">Name</label><input id="shiftNameInput" class="form-control" autocomplete="off"></div><div class="col-md-6"><label class="form-label">Start</label><input id="shiftStartInput" type="time" class="form-control"></div><div class="col-md-6"><label class="form-label">End</label><input id="shiftEndInput" type="time" class="form-control"></div><div class="col-md-6"><label class="form-label">Hours</label><input id="shiftHoursInput" type="number" step="0.5" class="form-control" value="8"></div><div class="col-md-6 d-flex align-items-end"><div class="form-check mt-2"><input id="shiftNightInput" class="form-check-input" type="checkbox"><label class="form-check-label" for="shiftNightInput">Night shift</label></div></div><div class="col-12"><label class="form-label">Notes</label><textarea id="shiftNotesInput" class="form-control" rows="4"></textarea></div><div class="col-12"><div id="shiftFormMessage" class="small text-danger"></div></div></div></div><div class="modal-footer"><button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-primary" id="saveShiftBtn" type="button">Save</button></div></div></div></div>
+<div class="modal fade" id="scheduleModal" tabindex="-1"><div class="modal-dialog modal-lg modal-dialog-centered"><div class="modal-content"><div class="modal-header"><h5 class="modal-title">Schedule</h5><button type="button" class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><input type="hidden" id="scheduleIdInput"><div class="row g-3"><div class="col-md-6"><label class="form-label">Employee</label><select id="scheduleEmployeeInput" class="form-select"></select></div><div class="col-md-6"><label class="form-label">Shift</label><select id="scheduleShiftInput" class="form-select"></select></div><div class="col-md-6"><label class="form-label">Work Date</label><input id="scheduleDateInput" type="date" class="form-control"></div><div class="col-md-6 d-flex align-items-end"><div class="form-check mt-2"><input id="scheduleLockedInput" class="form-check-input" type="checkbox"><label class="form-check-label" for="scheduleLockedInput">Locked</label></div></div><div class="col-12"><label class="form-label">Notes</label><textarea id="scheduleNotesInput" class="form-control" rows="4"></textarea></div><div class="col-12"><div id="scheduleFormMessage" class="small text-danger"></div></div></div></div><div class="modal-footer"><button class="btn btn-outline-secondary" type="button" data-bs-dismiss="modal">Cancel</button><button class="btn btn-success" id="saveScheduleBtn" type="button">Save</button></div></div></div></div>
+    </main>
+    <div class="admin-backdrop" id="adminBackdrop"></div>
+  </div>
+  <script src="/admin/admin.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script><script>
+(() => {
+ const token = localStorage.getItem('token');
+ const role = localStorage.getItem('role');
+ if (!token) return;
+ const headers = {'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};
+ const shiftModal = new bootstrap.Modal(document.getElementById('shiftModal'));
+ const scheduleModal = new bootstrap.Modal(document.getElementById('scheduleModal'));
+ const els = {
+   message: document.getElementById('schedulePageMessage'),
+   shiftBody: document.getElementById('shiftTableBody'),
+   scheduleBody: document.getElementById('scheduleTableBody'),
+   refreshBtn: document.getElementById('refreshSchedulesBtn'),
+   addShiftBtn: document.getElementById('addShiftBtn'),
+   addScheduleBtn: document.getElementById('addScheduleBtn'),
+   shiftId: document.getElementById('shiftIdInput'), shiftCode: document.getElementById('shiftCodeInput'), shiftName: document.getElementById('shiftNameInput'), shiftStart: document.getElementById('shiftStartInput'), shiftEnd: document.getElementById('shiftEndInput'), shiftHours: document.getElementById('shiftHoursInput'), shiftNight: document.getElementById('shiftNightInput'), shiftNotes: document.getElementById('shiftNotesInput'), shiftFormMessage: document.getElementById('shiftFormMessage'),
+   scheduleId: document.getElementById('scheduleIdInput'), scheduleEmployee: document.getElementById('scheduleEmployeeInput'), scheduleShift: document.getElementById('scheduleShiftInput'), scheduleDate: document.getElementById('scheduleDateInput'), scheduleLocked: document.getElementById('scheduleLockedInput'), scheduleNotes: document.getElementById('scheduleNotesInput'), scheduleFormMessage: document.getElementById('scheduleFormMessage')
+ };
+ let shifts = [], schedules = [], employees = [];
+ const esc = v => String(v ?? '').replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;').replaceAll('"','&quot;').replaceAll("'",'&#039;');
+ const showMessage = (msg, ok=false) => { if (!els.message) return; els.message.className = `small mb-2 ${ok ? 'text-success' : 'text-danger'}`; els.message.textContent = msg || ''; };
+ const api = async (url, method='GET', body) => {
+   const res = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
+   const ct = res.headers.get('content-type') || '';
+   const data = ct.includes('json') ? await res.json().catch(() => null) : await res.text().catch(() => '');
+   if (!res.ok) throw new Error(typeof data === 'string' ? data : (data?.message || data?.title || `Request failed (${res.status})`));
+   return data;
+ };
+ const fillEmployees = async () => {
+   employees = await api('/api/Employees');
+   els.scheduleEmployee.innerHTML = employees.map(x => `<option value="${x.id}">${esc(x.employeeCode)} - ${esc(x.fullName)}</option>`).join('');
+ };
+ const fillShiftSelect = () => {
+   els.scheduleShift.innerHTML = shifts.map(x => `<option value="${x.id}">${esc(x.shiftCode)} - ${esc(x.shiftName)}</option>`).join('');
+ };
+ const resetShiftForm = () => {
+   els.shiftId.value = ''; els.shiftCode.value = ''; els.shiftName.value = ''; els.shiftStart.value = '08:00'; els.shiftEnd.value = '17:00'; els.shiftHours.value = '8'; els.shiftNight.checked = false; els.shiftNotes.value = ''; els.shiftFormMessage.textContent = '';
+ };
+ const resetScheduleForm = () => {
+   els.scheduleId.value = ''; els.scheduleDate.value = new Date().toISOString().slice(0,10); els.scheduleLocked.checked = false; els.scheduleNotes.value = ''; els.scheduleFormMessage.textContent = '';
+   if (employees.length) els.scheduleEmployee.value = employees[0].id;
+   if (shifts.length) els.scheduleShift.value = shifts[0].id;
+ };
+ const render = () => {
+   els.shiftBody.innerHTML = shifts.length ? shifts.map(x => `<tr>
+     <td><strong>${esc(x.shiftCode)}</strong></td><td>${esc(x.shiftName)}</td><td>${String(x.startTime || '').slice(0,5)} - ${String(x.endTime || '').slice(0,5)}</td><td>${x.standardHours}</td><td><span class="badge-soft ${x.isActive ? 'badge-active' : 'badge-inactive'}">${x.isActive ? 'Active' : 'Inactive'}</span></td><td><div class="action-group">${role !== 'Manager' ? `<button class="btn btn-sm btn-outline-primary" data-shift-edit="${x.id}">Edit</button>` : `<span class="badge-soft badge-cancelled">Read only</span>`}${role === 'Admin' ? `<button class="btn btn-sm btn-outline-danger" data-shift-delete="${x.id}">Delete</button>` : ''}</div></td></tr>`).join('') : `<tr><td colspan="6"><div class="empty-state">No shifts are configured yet.</div></td></tr>`;
+   els.scheduleBody.innerHTML = schedules.length ? schedules.map(x => `<tr>
+     <td>${new Date(x.workDate).toLocaleDateString()}</td><td>${esc(x.employeeCode)} - ${esc(x.fullName)}</td><td>${esc(x.departmentName || '-')}</td><td>${esc(x.shiftCode)} - ${esc(x.shiftName)}</td><td><span class="badge-soft ${x.isLocked ? 'badge-cancelled' : 'badge-approved'}">${x.isLocked ? 'Locked' : 'Open'}</span></td><td>${esc(x.notes || '-')}</td><td><div class="action-group"><button class="btn btn-sm btn-outline-primary" data-schedule-edit="${x.id}">Edit</button>${role === 'Admin' || role === 'HR' ? `<button class="btn btn-sm btn-outline-danger" data-schedule-delete="${x.id}">Delete</button>` : ''}</div></td></tr>`).join('') : `<tr><td colspan="7"><div class="empty-state">No schedule assignments are available for the current workspace.</div></td></tr>`;
+   els.shiftBody.querySelectorAll('[data-shift-edit]').forEach(btn => btn.addEventListener('click', () => openShiftModal(btn.dataset.shiftEdit)));
+   els.shiftBody.querySelectorAll('[data-shift-delete]').forEach(btn => btn.addEventListener('click', () => removeShift(btn.dataset.shiftDelete)));
+   els.scheduleBody.querySelectorAll('[data-schedule-edit]').forEach(btn => btn.addEventListener('click', () => openScheduleModal(btn.dataset.scheduleEdit)));
+   els.scheduleBody.querySelectorAll('[data-schedule-delete]').forEach(btn => btn.addEventListener('click', () => removeSchedule(btn.dataset.scheduleDelete)));
+ };
+ const load = async () => {
+   showMessage('');
+   shifts = await api('/api/ShiftSchedules/shifts');
+   schedules = await api('/api/ShiftSchedules/schedules');
+   fillShiftSelect();
+   render();
+ };
+ const openShiftModal = (id=null) => {
+   resetShiftForm();
+   if (id) {
+     const x = shifts.find(i => String(i.id) === String(id));
+     if (!x) return;
+     els.shiftId.value = x.id; els.shiftCode.value = x.shiftCode || ''; els.shiftName.value = x.shiftName || ''; els.shiftStart.value = String(x.startTime || '').slice(0,5); els.shiftEnd.value = String(x.endTime || '').slice(0,5); els.shiftHours.value = x.standardHours || 8; els.shiftNight.checked = !!x.isNightShift; els.shiftNotes.value = x.notes || '';
+   }
+   shiftModal.show();
+ };
+ const openScheduleModal = (id=null) => {
+   resetScheduleForm();
+   if (id) {
+     const x = schedules.find(i => String(i.id) === String(id));
+     if (!x) return;
+     els.scheduleId.value = x.id; els.scheduleEmployee.value = x.employeeId; els.scheduleShift.value = x.workShiftId; els.scheduleDate.value = new Date(x.workDate).toISOString().slice(0,10); els.scheduleNotes.value = x.notes || ''; els.scheduleLocked.checked = !!x.isLocked;
+   }
+   scheduleModal.show();
+ };
+ const removeShift = async (id) => {
+   if (!confirm('Delete this shift?')) return;
+   try { await api(`/api/ShiftSchedules/shifts/${id}`, 'DELETE'); showMessage('Shift deleted successfully.', true); await load(); }
+   catch (err) { showMessage(err.message || 'Failed to delete shift.'); }
+ };
+ const removeSchedule = async (id) => {
+   if (!confirm('Delete this schedule?')) return;
+   try { await api(`/api/ShiftSchedules/schedules/${id}`, 'DELETE'); showMessage('Schedule deleted successfully.', true); await load(); }
+   catch (err) { showMessage(err.message || 'Failed to delete schedule.'); }
+ };
+ if (role === 'Manager' && els.addShiftBtn) els.addShiftBtn.style.display = 'none';
+ els.addShiftBtn?.addEventListener('click', () => openShiftModal());
+ els.addScheduleBtn?.addEventListener('click', () => openScheduleModal());
+ els.refreshBtn?.addEventListener('click', () => load().catch(err => showMessage(err.message || 'Failed to load schedules.')));
+ document.getElementById('saveShiftBtn')?.addEventListener('click', async () => {
+   els.shiftFormMessage.textContent = '';
+   const body = { shiftCode: els.shiftCode.value.trim(), shiftName: els.shiftName.value.trim(), startTime: `${els.shiftStart.value}:00`, endTime: `${els.shiftEnd.value}:00`, standardHours: Number(els.shiftHours.value || 8), isNightShift: els.shiftNight.checked, notes: els.shiftNotes.value.trim() || null, isActive: true };
+   if (!body.shiftCode || !body.shiftName || !els.shiftStart.value || !els.shiftEnd.value) { els.shiftFormMessage.textContent = 'Shift code, name, start, and end are required.'; return; }
+   try { const id = els.shiftId.value; await api(id ? `/api/ShiftSchedules/shifts/${id}` : '/api/ShiftSchedules/shifts', id ? 'PUT' : 'POST', body); shiftModal.hide(); showMessage(`Shift ${id ? 'updated' : 'created'} successfully.`, true); await load(); }
+   catch (err) { els.shiftFormMessage.textContent = err.message || 'Failed to save shift.'; }
+ });
+ document.getElementById('saveScheduleBtn')?.addEventListener('click', async () => {
+   els.scheduleFormMessage.textContent = '';
+   const body = { employeeId: Number(els.scheduleEmployee.value), workShiftId: Number(els.scheduleShift.value), workDate: els.scheduleDate.value, notes: els.scheduleNotes.value.trim() || null, isLocked: els.scheduleLocked.checked };
+   if (!body.employeeId || !body.workShiftId || !body.workDate) { els.scheduleFormMessage.textContent = 'Employee, shift, and work date are required.'; return; }
+   try { const id = els.scheduleId.value; await api(id ? `/api/ShiftSchedules/schedules/${id}` : '/api/ShiftSchedules/schedules', id ? 'PUT' : 'POST', body); scheduleModal.hide(); showMessage(`Schedule ${id ? 'updated' : 'created'} successfully.`, true); await load(); }
+   catch (err) { els.scheduleFormMessage.textContent = err.message || 'Failed to save schedule.'; }
+ });
+ fillEmployees().then(load).catch(err => showMessage(err.message || 'Failed to load scheduling workspace.'));
+})();
+</script>
+</body>
+</html>

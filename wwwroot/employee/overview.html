@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employee Overview - Smart HR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/employee/employee.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body class="employee-portal-body" data-page="overview">
+  <div class="employee-shell" id="employeeShell">
+    <aside class="employee-sidebar">
+      <div class="employee-sidebar-brand">
+        <div class="employee-brand-icon"><i class="bi bi-person-vcard"></i></div>
+        <div class="employee-brand-copy">
+          <h2>Employee</h2>
+          <p>Self-Service Portal</p>
+        </div>
+      </div>
+
+      <div class="employee-user-card">
+        <span>Welcome</span>
+        <strong id="employeeSidebarName">Employee</strong>
+        <small id="employeeSidebarMeta">Loading...</small>
+      </div>
+
+      <nav class="employee-nav">
+        <a href="/employee/overview.html" class="employee-nav-link" data-nav="overview">
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </a>
+        <a href="/employee/attendances.html" class="employee-nav-link" data-nav="attendances">
+          <i class="bi bi-calendar2-check-fill"></i><span>My Attendances</span>
+        </a>
+        <a href="/employee/payrolls.html" class="employee-nav-link" data-nav="payrolls">
+          <i class="bi bi-cash-stack"></i><span>My Payrolls</span>
+        </a>
+        <a href="/employee/leaves.html" class="employee-nav-link" data-nav="leaves">
+          <i class="bi bi-journal-check"></i><span>My Leave Requests</span>
+        </a>
+        <a href="/employee/profile.html" class="employee-nav-link" data-nav="profile">
+          <i class="bi bi-person-lines-fill"></i><span>Profile & Password</span>
+        </a>
+      </nav>
+
+      <button id="employeeLogoutBtn" class="btn btn-danger employee-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </aside>
+
+    <div class="employee-backdrop" id="employeeBackdrop"></div>
+
+    <main class="employee-main">
+      <div class="employee-topbar">
+        <button id="employeeMenuToggle" class="employee-icon-btn" type="button">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="employee-topbar-meta">
+          <span class="employee-topbar-chip">Employee Portal</span>
+          <h1>My Workspace</h1>
+        </div>
+
+        <a href="/" class="btn btn-outline-primary employee-home-btn">
+          <i class="bi bi-house-door-fill"></i>
+          Home
+        </a>
+      </div>
+
+      
+<section class="employee-hero-banner employee-hero-employee">
+  <div class="employee-hero-copy">
+    <span class="mini-chip">Employee Self-Service Dashboard</span>
+    <h2 id="overviewEmployeeName">Loading...</h2>
+    <p>
+      Monitor your own attendance quality, track request outcomes, follow payroll releases, and review the most recent actions that affect your HR records.
+    </p>
+    <div class="employee-hero-tags">
+      <span id="overviewDepartmentTag"><i class="bi bi-building"></i> Department</span>
+      <span id="overviewPositionTag"><i class="bi bi-briefcase"></i> Position</span>
+      <span id="overviewCodeTag"><i class="bi bi-person-badge"></i> Code</span>
+      <span id="overviewLastActionTag"><i class="bi bi-lightning-charge"></i> Latest update</span>
+    </div>
+  </div>
+
+  <div class="employee-hero-side">
+    <div class="employee-side-metric">
+      <span>Monthly Attendance</span>
+      <strong id="overviewMonthlyAttendance">0</strong>
+    </div>
+    <div class="employee-side-metric">
+      <span>Pending Requests</span>
+      <strong id="overviewPendingLeaves">0</strong>
+    </div>
+    <div class="employee-side-metric">
+      <span>Latest Payroll</span>
+      <strong id="overviewLatestPayroll">0</strong>
+    </div>
+    <div class="employee-side-metric">
+      <span>Profile Status</span>
+      <strong id="overviewProfileStatus">-</strong>
+    </div>
+  </div>
+</section>
+
+<section class="employee-kpi-grid mb-4">
+  <div class="portal-stat-card stat-cyan">
+    <div class="portal-stat-icon"><i class="bi bi-calendar-range"></i></div>
+    <div><span>This Month Records</span><strong id="kpiThisMonthRecords">0</strong></div>
+  </div>
+  <div class="portal-stat-card stat-blue">
+    <div class="portal-stat-icon"><i class="bi bi-clock-history"></i></div>
+    <div><span>Late Records</span><strong id="kpiLateRecords">0</strong></div>
+  </div>
+  <div class="portal-stat-card stat-purple">
+    <div class="portal-stat-icon"><i class="bi bi-journal-text"></i></div>
+    <div><span>Leave Requests</span><strong id="kpiLeaveRequests">0</strong></div>
+  </div>
+  <div class="portal-stat-card stat-green">
+    <div class="portal-stat-icon"><i class="bi bi-wallet2"></i></div>
+    <div><span>Payroll Records</span><strong id="kpiPayrollRecords">0</strong></div>
+  </div>
+  <div class="portal-stat-card stat-blue-soft">
+    <div class="portal-stat-icon"><i class="bi bi-arrow-repeat"></i></div>
+    <div><span>Adjustment Requests</span><strong id="overviewAdjustmentCount">0</strong></div>
+  </div>
+  <div class="portal-stat-card stat-orange-soft">
+    <div class="portal-stat-icon"><i class="bi bi-check2-square"></i></div>
+    <div><span>Approved Actions</span><strong id="overviewApprovedActionCount">0</strong></div>
+  </div>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <div class="employee-card">
+    <div class="card-title-row">
+      <div><h3>Attendance Self-Service Snapshot</h3><p class="card-subtitle">Synced with the KPI logic from My Attendances.</p></div>
+      <a href="/employee/attendances.html" class="btn btn-outline-primary btn-sm">Open Attendances</a>
+    </div>
+    <div class="employee-metric-chip-grid">
+      <div class="employee-metric-chip"><span>Reliable Days</span><strong id="overviewAttendanceReliable">0</strong></div>
+      <div class="employee-metric-chip"><span>Average Hours</span><strong id="overviewAttendanceAverageHours">0h</strong></div>
+      <div class="employee-metric-chip"><span>Late / Absent Flags</span><strong id="overviewAttendanceFlags">0</strong></div>
+    </div>
+    <div id="overviewAttendanceFocusNote" class="employee-inline-note">Attendance focus will update after data is loaded.</div>
+  </div>
+
+  <div class="employee-card">
+    <div class="card-title-row">
+      <div><h3>Leave Workflow Snapshot</h3><p class="card-subtitle">Synced with the KPI logic from My Leave Requests.</p></div>
+      <a href="/employee/leaves.html" class="btn btn-outline-primary btn-sm">Open Leaves</a>
+    </div>
+    <div class="employee-metric-chip-grid">
+      <div class="employee-metric-chip"><span>Approved Days</span><strong id="overviewLeaveApprovedDays">0</strong></div>
+      <div class="employee-metric-chip"><span>Pending Requests</span><strong id="overviewLeavePendingCount">0</strong></div>
+      <div class="employee-metric-chip"><span>Cancelled / Rejected</span><strong id="overviewLeaveClosedCount">0</strong></div>
+    </div>
+    <div id="overviewLeaveFocusNote" class="employee-inline-note">Leave workflow focus will update after data is loaded.</div>
+  </div>
+
+  <div class="employee-card">
+    <div class="card-title-row">
+      <div><h3>Payroll Snapshot</h3><p class="card-subtitle">Synced with the KPI logic from My Payrolls.</p></div>
+      <a href="/employee/payrolls.html" class="btn btn-outline-primary btn-sm">Open Payrolls</a>
+    </div>
+    <div class="employee-metric-chip-grid">
+      <div class="employee-metric-chip"><span>Total Net</span><strong id="overviewPayrollTotalNet">0</strong></div>
+      <div class="employee-metric-chip"><span>Average Net</span><strong id="overviewPayrollAverageNet">0</strong></div>
+      <div class="employee-metric-chip"><span>Highest Net</span><strong id="overviewPayrollHighestNet">0</strong></div>
+    </div>
+    <div id="overviewPayrollFocusNote" class="employee-inline-note">Payroll focus will update after data is loaded.</div>
+  </div>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <div class="employee-card">
+    <div class="card-title-row"><div><h3>Attendance Mix</h3><p class="card-subtitle">Your current attendance distribution.</p></div></div>
+    <div class="employee-chart-box"><canvas id="employeeAttendanceChart"></canvas></div>
+  </div>
+  <div class="employee-card">
+    <div class="card-title-row"><div><h3>Request Workflow</h3><p class="card-subtitle">Leave and adjustment outcomes at a glance.</p></div></div>
+    <div class="employee-chart-box"><canvas id="employeeRequestChart"></canvas></div>
+  </div>
+  <div class="employee-card">
+    <div class="card-title-row"><div><h3>Recent Payroll Trend</h3><p class="card-subtitle">Latest payroll releases and net salary values.</p></div></div>
+    <div class="employee-chart-box"><canvas id="employeePayrollChart"></canvas></div>
+  </div>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <div class="employee-card h-100">
+    <div class="card-title-row"><h3>Recent Attendances</h3></div>
+    <div class="table-responsive thin-table-wrap">
+      <table class="table employee-table mb-0">
+        <thead><tr><th>Date</th><th>Status</th><th>Hours</th></tr></thead>
+        <tbody id="overviewAttendanceBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="employee-card h-100">
+    <div class="card-title-row"><h3>Recent Payrolls</h3></div>
+    <div class="table-responsive thin-table-wrap">
+      <table class="table employee-table mb-0">
+        <thead><tr><th>Month</th><th>Net Salary</th></tr></thead>
+        <tbody id="overviewPayrollBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="employee-card h-100">
+    <div class="card-title-row"><h3>Recent Leave Requests</h3></div>
+    <div class="table-responsive thin-table-wrap">
+      <table class="table employee-table mb-0">
+        <thead><tr><th>Type</th><th>Status</th><th>Dates</th></tr></thead>
+        <tbody id="overviewLeaveBody"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <div class="employee-card h-100">
+    <div class="card-title-row"><div><h3>My Adjustment Requests</h3><p class="card-subtitle">Latest attendance-correction requests and review state.</p></div></div>
+    <div class="table-responsive thin-table-wrap">
+      <table class="table employee-table mb-0">
+        <thead><tr><th>Work Date</th><th>Requested</th><th>Status</th><th>Reviewed</th></tr></thead>
+        <tbody id="overviewAdjustmentBody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="employee-card h-100 employee-span-2">
+    <div class="card-title-row"><div><h3>Self-Service Timeline</h3><p class="card-subtitle">A role-specific timeline of your submissions, reviews, payroll releases, and profile-relevant HR events.</p></div></div>
+    <div id="employeeTimelineHost" class="employee-timeline-list"></div>
+  </div>
+</section>
+
+<section class="employee-story-block mt-4">
+  <div class="story-grid">
+    <div class="story-copy">
+      <span class="mini-chip">Quick Guidance</span>
+      <h3>Your personal HR cockpit</h3>
+      <p>
+        This overview is tailored for employee self-service: it shows what you submitted, what HR reviewed, when payroll was released, and which requests still need attention.
+      </p>
+    </div>
+    <div class="story-image-stack">
+      <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=900&auto=format&fit=crop" alt="Team work" />
+      <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=900&auto=format&fit=crop" alt="Office collaboration" />
+    </div>
+  </div>
+</section>
+
+    </main>
+  </div>
+
+  <script src="/employee/employee.js"></script>
+</body>
+</html>

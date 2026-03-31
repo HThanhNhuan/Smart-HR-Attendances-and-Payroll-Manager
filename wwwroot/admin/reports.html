@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart HR Admin - Reports</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body" data-page="reports">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i class="bi bi-buildings-fill"></i></div>
+          <div class="sidebar-brand-copy">
+            <h1>Smart HR</h1>
+            <p>Admin Console</p>
+          </div>
+        </div>
+        <button class="sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle sidebar">
+          <i class="bi bi-layout-sidebar-inset"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-user">
+        <small>Signed in as</small>
+        <strong id="adminCurrentUser">User</strong>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a class="sidebar-link" href="/admin/overview.html"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="/admin/employees.html"><i class="bi bi-people-fill"></i><span>Employees</span></a>
+        <a class="sidebar-link" href="/admin/attendances.html"><i class="bi bi-calendar2-check-fill"></i><span>Attendances</span></a>
+        <a class="sidebar-link" href="/admin/payrolls.html"><i class="bi bi-cash-stack"></i><span>Payrolls</span></a>
+        <a class="sidebar-link" href="/admin/leaves.html"><i class="bi bi-journal-check"></i><span>Leave Requests</span></a>
+        <a class="sidebar-link" href="/admin/departments.html"><i class="bi bi-diagram-3-fill"></i><span>Departments</span></a>
+        <a class="sidebar-link" href="/admin/reports.html"><i class="bi bi-bar-chart-line-fill"></i><span>Reports</span></a>
+
+      </nav>
+
+      <button class="sidebar-logout" id="adminLogoutBtn" type="button">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </aside>
+
+    <div class="sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
+    <main class="admin-main">
+      <section class="topbar">
+        <div class="topbar-left">
+          <button class="main-toggle" id="adminMainToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-meta">
+            <span class="topbar-chip" id="adminRoleChip">Smart HR / Admin workspace</span>
+            <span class="topbar-live"><i class="bi bi-circle-fill"></i> Live API connected</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a class="btn btn-outline-secondary" href="/" id="toolbarHomeLink">Return to landing</a>
+        </div>
+      </section>
+
+      <section class="hero-panel">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-tag">Reports</span>
+            <h1>Monthly Report Workspace</h1>
+            <p id="reportsHeroText">Generate a cleaner monthly speaking summary by reusing dashboard endpoints in a dedicated reporting page.</p>
+            <div class="note-list">
+              <div class="note-item"><i class="bi bi-lightning-charge-fill"></i><span>Backend and frontend are mapped by dedicated page responsibilities.</span></div>
+              <div class="note-item"><i class="bi bi-funnel-fill"></i><span>Search, filters, actions, and paging are isolated by module.</span></div>
+              <div class="note-item"><i class="bi bi-arrows-move"></i><span>This layout can keep growing when your real data becomes larger.</span></div>
+            </div>
+          </div>
+          <div class="hero-side">
+            
+<div class="side-card">
+  <h3>Report month</h3>
+  <p>This page turns dashboard endpoints into a narration-friendly monthly summary you can use in demonstrations or presentations.</p>
+  <div class="filter-grid">
+    <div><label class="form-label">Year</label><input id="repYear" class="form-control" type="number" min="2000" max="2100" /></div>
+    <div><label class="form-label">Month</label><input id="repMonth" class="form-control" type="number" min="1" max="12" /></div>
+  </div>
+  <div style="margin-top:12px;"><button class="btn btn-primary" id="repRefresh" type="button" style="width:100%;"><i class="bi bi-arrow-clockwise"></i> Refresh Report</button></div>
+</div>
+<div class="side-card">
+  <h3>Use case</h3>
+  <p>Good for chapter screenshots, final demo explanations, or a quick spoken walkthrough of the current month’s HR performance.</p>
+</div>
+
+          </div>
+        </div>
+      </section>
+
+      <div id="pageErrorHost"></div>
+
+
+<section class="equal-card-grid">
+  <article class="section-card accent-blue"><div class="card-head"><div><h3>Overview Summary</h3><p>High-level operational numbers.</p></div></div><div class="stat-grid" id="repOverviewStats"></div></article>
+  <article class="section-card accent-green"><div class="card-head"><div><h3>Attendance Summary</h3><p>Core attendance distribution for the selected month.</p></div></div><div class="stat-grid" id="repAttendanceStats"></div></article>
+</section>
+<section class="equal-card-grid">
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Payroll Summary</h3><p>Payroll totals and averages.</p></div></div><div class="stat-grid" id="repPayrollStats"></div></article>
+  <article class="section-card accent-orange"><div class="card-head"><div><h3>Leave Summary</h3><p>Leave request outcomes.</p></div></div><div class="stat-grid" id="repLeaveStats"></div></article>
+</section>
+<section class="report-chart-grid" style="margin-bottom:20px;">
+  <article class="section-card accent-blue"><div class="card-head"><div><h3>Attendance Mix Chart</h3><p>Quick visual balance of present, late, absent, leave, and remote records.</p></div></div><div class="chart-box compact-chart"><canvas id="repAttendanceChart"></canvas></div></article>
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Leave Workflow Chart</h3><p>Compare pending, approved, rejected, and cancelled requests for the selected month.</p></div></div><div class="chart-box compact-chart"><canvas id="repLeaveChart"></canvas></div></article>
+  <article class="section-card accent-green"><div class="card-head"><div><h3>Workforce & Payroll Chart</h3><p>Pair workforce size with payroll coverage and net salary totals.</p></div></div><div class="chart-box compact-chart"><canvas id="repWorkforceChart"></canvas></div></article>
+</section>
+<section class="equal-card-grid">
+  <article class="section-card accent-cyan">
+    <div class="card-head"><div><h3>Interactive Drill-down</h3><p>Click chart segments or use the filters below to inspect the underlying records.</p></div></div>
+    <div class="inline-toolbar-grid" style="margin-bottom:14px;">
+      <div><label class="form-label">Dataset</label><select id="repDrillScope" class="form-select"><option value="queue">Approval Queue</option><option value="attendance">Attendance Records</option><option value="leave">Leave Requests</option><option value="adjustment">Adjustment Requests</option><option value="payroll">Payroll Records</option><option value="employee">Employees</option></select></div>
+      <div><label class="form-label">Status filter</label><select id="repDrillStatus" class="form-select"><option value="">All statuses</option></select></div>
+      <div><label class="form-label">Keyword</label><input id="repDrillSearch" class="form-control" placeholder="Search visible drill-down rows..." /></div>
+      <div class="toolbar-actions"><button id="repDrillReset" class="btn btn-outline-secondary" type="button"><i class="bi bi-arrow-counterclockwise"></i> Reset drill-down</button></div>
+    </div>
+    <div class="info-banner" id="repDrillContext">Interactive context will update after the page loads.</div>
+    <div id="repDrillInsightCards" class="role-kpi-grid" style="margin:18px 0;"></div>
+    <div class="card-head"><div><h3 id="repDrillSubtitle">Open Approval Queue</h3><p>Records behind the currently selected report interaction.</p></div></div>
+    <div class="table-wrap table-wrap-tall"><table class="table-modern"><thead id="repDrillHead"></thead><tbody id="repDrillBody"></tbody></table></div>
+  </article>
+  <article class="section-card accent-purple">
+    <div class="card-head"><div><h3>Month-to-Month Trend</h3><p>Track operations across recent months for payroll, attendance, leave, and pending adjustments.</p></div></div>
+    <div class="inline-toolbar-grid" style="grid-template-columns:1fr auto; margin-bottom:16px;"><div><label class="form-label">Trend metric</label><select id="repTrendMetric" class="form-select"><option value="netSalary">Total Net Salary</option><option value="employees">Employees</option><option value="attendance">Attendance Records</option><option value="pendingLeaves">Pending Leaves</option><option value="pendingAdjustments">Pending Adjustments</option></select></div><div class="toolbar-actions"><button id="repTrendReset" class="btn btn-outline-secondary" type="button"><i class="bi bi-arrow-counterclockwise"></i> Reset Trend</button></div></div>
+    <div class="chart-box compact-chart"><canvas id="repTrendChart"></canvas></div>
+  </article>
+</section>
+<section class="equal-card-grid">
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Department-Level Comparison</h3><p>Compare headcount, workload, payroll coverage, and pending workflow across departments.</p></div></div><div class="chart-box compact-chart"><canvas id="repDepartmentComparisonChart"></canvas></div></article>
+  <article class="section-card accent-green comparison-note-card"><div class="card-head"><div><h3>Comparison Notes</h3><p>This panel mirrors the selected month and helps explain departmental workload differences.</p></div></div><div class="inline-note">The table below expands the same comparison data in a readable long-form list for screenshots and chapter explanations.</div><div class="comparison-photo"><img src="https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1400&auto=format&fit=crop" alt="Department comparison" /></div></article>
+</section>
+<section class="section-card accent-cyan full-width-section wide-table-card"><div class="card-head"><div><h3>Department Comparison Table</h3><p>Expanded departmental metrics for the selected month.</p></div></div><div class="table-wrap table-wrap-tall"><table class="table-modern"><thead><tr><th>Department</th><th>Headcount</th><th>Attendance</th><th>Late</th><th>Absent</th><th>Pending Leaves</th><th>Pending Adjustments</th><th>Payroll Records</th><th>Total Net Salary</th></tr></thead><tbody id="repDepartmentBody"></tbody></table></div></section>
+<section class="equal-card-grid">
+  <article class="section-card accent-purple ai-assistant-panel">
+    <div class="card-head"><div><h3>AI Payroll Summary Assistant</h3><p>Use the selected report month to generate an executive-ready summary of payroll anomalies, deductions, overtime pressure, and department signals.</p></div></div>
+    <div class="toolbar-grid ai-toolbar-grid"><div><label class="form-label">Prompt template</label><select id="repAiTemplate" class="form-select"></select></div><div><label class="form-label">Department focus</label><select id="repAiDepartment" class="form-select"></select></div><div class="toolbar-actions"><button id="repAiRun" class="btn btn-primary" type="button"><i class="bi bi-stars"></i> Generate AI Summary</button><button id="repAiUseScript" class="btn btn-outline-primary" type="button"><i class="bi bi-mic"></i> Use Presentation Context</button></div></div>
+    <div id="repAiTemplateHelper" class="ai-template-helper"></div>
+    <div style="margin-top:14px;"><label class="form-label">Custom instruction (optional)</label><textarea id="repAiPrompt" class="form-control" rows="3" placeholder="Example: Focus on department outliers, overtime-driven payroll, and attendance risk."></textarea></div>
+    <div id="repAiMessage" class="small text-muted" style="margin-top:12px;">Cached AI summaries are reused for identical report scopes to keep the assistant fast.</div>
+    <div id="repAiResult" class="ai-summary-result" style="margin-top:16px;"></div>
+  </article>
+  <article class="section-card accent-cyan compact-card visual-story-card">
+    <div class="card-head"><div><h3>Assistant Prompt Ideas</h3><p>Good examples for reports, demos, and thesis screenshots.</p></div></div>
+    <div class="story-stack">
+      <div class="inline-metric-list"><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Summarize payroll anomalies for March 2026.</span></div><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Which departments show unusual overtime this month?</span></div><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Give HR a short payroll + attendance risk brief.</span></div></div>
+      <div class="prompt-illustration"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="Assistant prompt ideas" /><div class="caption">Prompt ideas now share space with a supporting image so the right side does not feel empty.</div></div>
+    </div>
+  </article>
+</section>
+<section class="section-card accent-blue full-width-section"><div class="card-head"><div><h3>Exportable Report Pack</h3><p>Download ready-to-use CSV, Excel, or PDF files for demos, reports, or appendix evidence.</p></div></div><div class="toolbar-grid" style="grid-template-columns:1fr 1fr auto; margin-bottom:14px;"><div><label class="form-label">Export format</label><select id="repExportFormat" class="form-select"><option value="csv">CSV</option><option value="xlsx">Excel (.xlsx)</option><option value="pdf">PDF</option></select></div><div><label class="form-label">Scope</label><input class="form-control" value="Monthly snapshot" readonly /></div><div class="toolbar-actions"><button id="repRefreshExports" class="btn btn-outline-secondary" type="button"><i class="bi bi-arrow-repeat"></i> Reuse selected month</button></div></div><div class="export-grid"><button id="repExportSummary" class="btn btn-primary" type="button"><i class="bi bi-file-earmark-bar-graph"></i> Export Monthly Summary</button><button id="repExportPayrolls" class="btn btn-outline-primary" type="button"><i class="bi bi-cash-stack"></i> Export Payrolls</button><button id="repExportLeaves" class="btn btn-outline-primary" type="button"><i class="bi bi-journal-check"></i> Export Leave Workflow</button><button id="repExportAdjustments" class="btn btn-outline-primary" type="button"><i class="bi bi-calendar2-check"></i> Export Adjustment Requests</button><button id="repExportAdjustmentAudit" class="btn btn-outline-dark" type="button"><i class="bi bi-diagram-3"></i> Export Adjustment Audit Trail</button><button id="repExportLeaveAudit" class="btn btn-outline-dark" type="button"><i class="bi bi-shield-check"></i> Export Leave Audit History</button><button id="repExportPayrollAudit" class="btn btn-outline-dark" type="button"><i class="bi bi-clock-history"></i> Export Payroll Audit History</button></div><div id="reportExportMessage" class="small text-success" style="margin-top:12px;"></div></section>
+<section class="equal-card-grid">
+  <article class="section-card accent-green visual-story-card"><div class="card-head"><div><h3>Operational Highlights</h3><p>Short talking points generated from the selected month.</p></div></div><div class="story-split"><div id="repOperationalHighlights" class="inline-metric-list"></div><div class="note-photo"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1400&auto=format&fit=crop" alt="Operational highlights" /></div></div></article>
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Open Approval Queue</h3><p>Pending items that still need HR/Admin attention.</p></div></div><div class="table-wrap table-wrap-tall"><table class="table-modern"><thead><tr><th>Type</th><th>Owner</th><th>Details</th><th>Status</th><th>Created</th></tr></thead><tbody id="repQueueBody"></tbody></table></div></article>
+</section>
+<section class="equal-card-grid">
+  <article class="section-card accent-blue"><div class="card-head"><div><h3>Presentation Script</h3><p>Auto-generated speaking notes based on the selected month.</p></div></div><div id="reportScriptBody" class="inline-note"></div></article>
+  <article class="section-card accent-orange"><div class="card-head"><div><h3>Recent Operations Timeline</h3><p>Useful for screenshots and system walkthrough explanations.</p></div></div><div id="repActivityTimeline" class="audit-trail-card"></div></article>
+</section>
+<section class="report-audit-grid" style="margin-bottom:20px;"><article class="section-card accent-cyan"><div class="card-head"><div><h3>Recent Adjustment Audit History</h3><p>Submission, approval, and rejection events for attendance corrections.</p></div></div><div id="repAdjustmentAuditHistory" class="audit-trail-card"></div></article><article class="section-card accent-purple"><div class="card-head"><div><h3>Recent Leave Audit History</h3><p>Submission, approval, rejection, and cancellation events.</p></div></div><div id="repLeaveAuditHistory" class="audit-trail-card"></div></article><article class="section-card accent-blue"><div class="card-head"><div><h3>Recent Payroll Audit History</h3><p>Generation, regeneration, adjustment, and deletion events.</p></div></div><div id="repPayrollAuditHistory" class="audit-trail-card"></div></article></section>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

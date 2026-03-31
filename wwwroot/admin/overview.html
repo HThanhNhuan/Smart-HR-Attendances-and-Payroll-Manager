@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart HR Admin - Overview</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body" data-page="overview">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i class="bi bi-buildings-fill"></i></div>
+          <div class="sidebar-brand-copy">
+            <h1>Smart HR</h1>
+            <p>Admin Console</p>
+          </div>
+        </div>
+        <button class="sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle sidebar">
+          <i class="bi bi-layout-sidebar-inset"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-user">
+        <small>Signed in as</small>
+        <strong id="adminCurrentUser">User</strong>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a class="sidebar-link" href="/admin/overview.html"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="/admin/employees.html"><i class="bi bi-people-fill"></i><span>Employees</span></a>
+        <a class="sidebar-link" href="/admin/attendances.html"><i class="bi bi-calendar2-check-fill"></i><span>Attendances</span></a>
+        <a class="sidebar-link" href="/admin/payrolls.html"><i class="bi bi-cash-stack"></i><span>Payrolls</span></a>
+        <a class="sidebar-link" href="/admin/leaves.html"><i class="bi bi-journal-check"></i><span>Leave Requests</span></a>
+        <a class="sidebar-link" href="/admin/departments.html"><i class="bi bi-diagram-3-fill"></i><span>Departments</span></a>
+        <a class="sidebar-link" href="/admin/reports.html"><i class="bi bi-bar-chart-line-fill"></i><span>Reports</span></a>
+
+      </nav>
+
+      <button class="sidebar-logout" id="adminLogoutBtn" type="button">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </aside>
+
+    <div class="sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
+    <main class="admin-main">
+      <section class="topbar">
+        <div class="topbar-left">
+          <button class="main-toggle" id="adminMainToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-meta">
+            <span class="topbar-chip" id="adminRoleChip">Smart HR / Admin workspace</span>
+            <span class="topbar-live"><i class="bi bi-circle-fill"></i> Live API connected</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a class="btn btn-outline-secondary" href="/" id="toolbarHomeLink">Return to landing</a>
+        </div>
+      </section>
+
+      <section class="hero-panel">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-tag">Overview</span>
+            <h1 id="overviewHeroTitle">Smart HR Dashboard</h1>
+            <p id="overviewHeroText">Monitor employees, attendance, payroll, and leave activity in a dedicated Admin / HR overview workspace.</p>
+            <div class="note-list">
+              <div class="note-item"><i class="bi bi-lightning-charge-fill"></i><span>Backend and frontend are mapped by dedicated page responsibilities.</span></div>
+              <div class="note-item"><i class="bi bi-funnel-fill"></i><span>Search, filters, actions, and paging are isolated by module.</span></div>
+              <div class="note-item"><i class="bi bi-arrows-move"></i><span>This layout can keep growing when your real data becomes larger.</span></div>
+            </div>
+          </div>
+          <div class="hero-side">
+            
+<div class="side-card">
+  <h3>Filter dashboard</h3>
+  <p>Refresh the overview by month and year.</p>
+  <div class="filter-grid">
+    <div><label class="form-label">Year</label><input class="form-control" id="yearInput" type="number" min="2000" max="2100" /></div>
+    <div><label class="form-label">Month</label><input class="form-control" id="monthInput" type="number" min="1" max="12" /></div>
+  </div>
+  <div style="margin-top:12px;"><button class="btn btn-primary" id="refreshBtn" type="button" style="width:100%;"><i class="bi bi-arrow-clockwise"></i> Refresh overview</button></div>
+</div>
+<div class="side-card">
+  <h3>Why this page first?</h3>
+  <p>Overview acts as the dedicated first page for Admin/HR instead of mixing every module into one endless screen.</p>
+  <div class="side-tip"><i class="bi bi-stars"></i><span>Use the sidebar to move into Employees, Attendances, Payrolls, Leaves, Departments, and Reports.</span></div>
+</div>
+
+          </div>
+        </div>
+      </section>
+
+      <div id="pageErrorHost"></div>
+
+
+<section class="mosaic-grid">
+  <div class="mosaic-stack">
+    <article class="section-card accent-purple role-panel" id="rolePrimaryPanel">
+      <div class="card-head"><div><h3 id="rolePrimaryTitle">Admin control tower</h3><p id="rolePrimarySubtitle">Governance-oriented indicators for the current month.</p></div></div>
+      <div class="stat-grid" id="rolePrimaryStats"></div>
+      <div class="info-banner" id="rolePrimaryNote">Track structure health, approval backlog, payroll volume, and audit-heavy changes before exporting reports.</div>
+    </article>
+
+    <article class="section-card accent-green role-only-admin visual-story-card">
+      <div class="card-head"><div><h3>Admin Governance Focus</h3><p>System-structure and organization-level control indicators.</p></div></div>
+      <div class="story-split">
+        <div>
+          <div class="inline-metric-list" id="adminGovernanceList"></div>
+        </div>
+        <div class="note-photo"><img src="https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1400&auto=format&fit=crop" alt="Governance review" /></div>
+      </div>
+    </article>
+
+    <article class="section-card accent-blue role-only-hr visual-story-card">
+      <div class="card-head"><div><h3>HR Approval Focus</h3><p>Live operational priorities for HR review and follow-up.</p></div></div>
+      <div class="story-split">
+        <div>
+          <div class="inline-metric-list" id="hrOperationsList"></div>
+        </div>
+        <div class="note-photo"><img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop" alt="HR operations" /></div>
+      </div>
+    </article>
+  </div>
+
+  <div class="mosaic-stack">
+    <article class="section-card accent-orange">
+      <div class="card-head"><div><h3>Approval & Audit Feed</h3><p>Recent leave and payroll decision history for the current workspace.</p></div></div>
+      <div id="overviewAuditFeed" class="audit-trail-card"></div>
+    </article>
+
+    <article class="section-card accent-green">
+      <div class="card-head"><div><h3>Approval Queue Snapshot</h3><p>Pending leave and attendance-correction workload for the current month.</p></div></div>
+      <div class="table-wrap"><table class="table-modern"><thead><tr><th>Queue Type</th><th>Owner</th><th>Details</th><th>Status</th><th>Created</th></tr></thead><tbody id="overviewQueueBody"></tbody></table></div>
+    </article>
+  </div>
+</section>
+
+<section class="metric-strip-grid">
+  <div class="metric-card metric-blue"><div class="metric-icon"><i class="bi bi-people-fill"></i></div><div><div class="metric-label">Total Employees</div><div class="metric-value" id="metricEmployees">0</div></div></div>
+  <div class="metric-card metric-green"><div class="metric-icon"><i class="bi bi-person-check-fill"></i></div><div><div class="metric-label">Active Employees</div><div class="metric-value" id="metricActive">0</div></div></div>
+  <div class="metric-card metric-orange"><div class="metric-icon"><i class="bi bi-envelope-paper-fill"></i></div><div><div class="metric-label">Pending Leaves</div><div class="metric-value" id="metricPendingLeaves">0</div></div></div>
+  <div class="metric-card metric-purple"><div class="metric-icon"><i class="bi bi-currency-dollar"></i></div><div><div class="metric-label">Monthly Net Salary</div><div class="metric-value" id="metricNetSalary">0</div></div></div>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-cyan role-only-admin">
+    <div class="card-head"><div><h3>Admin KPI Block</h3><p>Governance, structure, and audit-sensitive indicators for admin-level oversight.</p></div></div>
+    <div class="role-kpi-grid" id="adminDeepKpiGrid"></div>
+  </article>
+  <article class="section-card accent-cyan role-only-hr">
+    <div class="card-head"><div><h3>HR KPI Block</h3><p>Operational workload, response speed, and workforce-service indicators for HR.</p></div></div>
+    <div class="role-kpi-grid" id="hrDeepKpiGrid"></div>
+  </article>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-cyan">
+    <div class="card-head"><div><h3 id="roleFocusChartTitle">Role Focus Chart</h3><p id="roleFocusChartSubtitle">A role-oriented chart updates according to the current workspace.</p></div></div>
+    <div class="chart-box compact-chart"><canvas id="roleFocusChart"></canvas></div>
+  </article>
+  <article class="section-card accent-cyan visual-story-card">
+    <div class="card-head"><div><h3 id="roleFocusHighlightsTitle">Role Focus Highlights</h3><p id="roleFocusHighlightsSubtitle">Narration-friendly bullets for the current role.</p></div></div>
+    <div class="story-split reverse">
+      <div class="note-photo"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1400&auto=format&fit=crop" alt="Dashboard spotlight" /></div>
+      <div id="roleFocusHighlights" class="inline-metric-list"></div>
+    </div>
+  </article>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-blue">
+    <div class="card-head"><div><h3>Attendance & Leave Charts</h3><p>Visual pulse for the selected month.</p></div></div>
+    <div class="equal-card-grid" style="margin-bottom:0;">
+      <div class="chart-box compact-chart"><canvas id="attendanceChart"></canvas></div>
+      <div class="chart-box compact-chart"><canvas id="leaveChart"></canvas></div>
+    </div>
+  </article>
+  <article class="section-card accent-green visual-story-card">
+    <div class="card-head"><div><h3>Business Narrative</h3><p>Use the cards below as the executive summary strip for demos and screenshots.</p></div></div>
+    <div class="story-stack">
+      <div class="stat-grid" id="attendanceSummaryGrid"></div>
+      <div class="stat-grid" id="payrollSummaryGrid"></div>
+      <div class="stat-grid" id="leaveSummaryGrid"></div>
+      <div class="stat-grid" id="employeeStatusGrid"></div>
+    </div>
+  </article>
+</section>
+
+<section class="section-card accent-blue full-width-section">
+  <div class="card-head"><div><h3>Department Headcount</h3><p>Distribution of employees by department.</p></div></div>
+  <div class="table-wrap"><table class="table-modern"><thead><tr><th>Code</th><th>Name</th><th>Total</th><th>Active</th><th>Inactive</th></tr></thead><tbody id="departmentBody"></tbody></table></div>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-orange">
+    <div class="card-head"><div><h3>Recent Leave Requests</h3><p>Latest workflow items.</p></div></div>
+    <div class="table-wrap"><table class="table-modern"><thead><tr><th>Employee</th><th>Type</th><th>Status</th><th>Dates</th></tr></thead><tbody id="recentLeaveBody"></tbody></table></div>
+  </article>
+  <article class="section-card accent-blue">
+    <div class="card-head"><div><h3>Recent Attendances</h3><p>Latest attendance records.</p></div></div>
+    <div class="table-wrap"><table class="table-modern"><thead><tr><th>Employee</th><th>Date</th><th>Status</th><th>Note</th></tr></thead><tbody id="recentAttendanceBody"></tbody></table></div>
+  </article>
+</section>
+
+<section class="section-card accent-green full-width-section" style="margin-top:20px;">
+  <div class="card-head"><div><h3>Recent Payrolls</h3><p>Latest payroll generation records.</p></div></div>
+  <div class="table-wrap"><table class="table-modern"><thead><tr><th>Employee</th><th>Month</th><th>Net Salary</th><th>Generated</th></tr></thead><tbody id="recentPayrollBody"></tbody></table></div>
+</section>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8" /><meta name="viewport" content="width=device-width, initial-scale=1.0" /><title>My Overtime - Smart HR</title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" /><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" /><link rel="stylesheet" href="/employee/employee.css" /><script src="https://cdn.jsdelivr.net/npm/chart.js"></script></head><body class="employee-portal-body" data-page="overtime"><div class="employee-shell" id="employeeShell"><aside class="employee-sidebar"><div class="employee-sidebar-brand"><div class="employee-brand-icon"><i class="bi bi-person-vcard"></i></div><div class="employee-brand-copy"><h2>Employee</h2><p>Self-Service Portal</p></div></div><div class="employee-user-card"><span>Welcome</span><strong id="employeeSidebarName">Employee</strong><small id="employeeSidebarMeta">Loading...</small></div><nav class="employee-nav"><a href="/employee/overview.html" class="employee-nav-link" data-nav="overview"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a><a href="/employee/attendances.html" class="employee-nav-link" data-nav="attendances"><i class="bi bi-calendar2-check-fill"></i><span>My Attendances</span></a><a href="/employee/payrolls.html" class="employee-nav-link" data-nav="payrolls"><i class="bi bi-cash-stack"></i><span>My Payrolls</span></a><a href="/employee/leaves.html" class="employee-nav-link" data-nav="leaves"><i class="bi bi-journal-check"></i><span>My Leave Requests</span></a><a href="/employee/profile.html" class="employee-nav-link" data-nav="profile"><i class="bi bi-person-lines-fill"></i><span>Profile & Password</span></a></nav><button id="employeeLogoutBtn" class="btn btn-danger employee-logout-btn"><i class="bi bi-box-arrow-right"></i> Logout</button></aside><div class="employee-backdrop" id="employeeBackdrop"></div><main class="employee-main"><div class="employee-topbar"><button id="employeeMenuToggle" class="employee-icon-btn" type="button"><i class="bi bi-list"></i></button><div class="employee-topbar-meta"><span class="employee-topbar-chip">Employee Portal</span><h1>My Overtime</h1></div><a href="/" class="btn btn-outline-primary employee-home-btn"><i class="bi bi-house-door-fill"></i> Home</a></div><section class="employee-card mb-4"><div class="row g-4"><div class="col-xl-5"><div class="sub-card"><h4 class="sub-card-title">Submit Overtime Request</h4><div class="vstack gap-3"><div><label class="form-label">Work Date</label><input id="otWorkDateInput" type="date" class="form-control"></div><div><label class="form-label">Start Time</label><input id="otStartInput" type="datetime-local" class="form-control"></div><div><label class="form-label">End Time</label><input id="otEndInput" type="datetime-local" class="form-control"></div><div><label class="form-label">Reason</label><textarea id="otReasonInput" class="form-control"></textarea></div><button id="otSubmitBtn" class="btn btn-success"><i class="bi bi-plus-circle"></i> Submit Request</button><div id="otFormMessage" class="small mt-2"></div></div></div></div><div class="col-xl-7"><div class="sub-card h-100"><h4 class="sub-card-title">Filter My Requests</h4><div class="row g-3"><div class="col-md-4"><select id="otStatusFilter" class="form-select"><option value="">All statuses</option><option>Pending</option><option>Approved</option><option>Rejected</option><option>Cancelled</option></select></div><div class="col-md-4"><input id="otMonthFilter" type="number" class="form-control" placeholder="Month"></div><div class="col-md-4"><input id="otYearFilter" type="number" class="form-control" placeholder="Year"></div><div class="col-12 d-flex gap-2"><button id="otApplyBtn" class="btn btn-primary">Apply Filters</button><button id="otExportBtn" class="btn btn-outline-secondary">Export CSV</button></div></div></div></div></div></section><section class="employee-kpi-grid mb-4"><article class="portal-stat-card stat-orange-soft"><div class="portal-stat-icon"><i class="bi bi-clock-history"></i></div><div><span>Total Requests</span><strong id="otKpiTotal">0</strong></div></article><article class="portal-stat-card stat-blue"><div class="portal-stat-icon"><i class="bi bi-hourglass-split"></i></div><div><span>Pending</span><strong id="otKpiPending">0</strong></div></article><article class="portal-stat-card stat-green"><div class="portal-stat-icon"><i class="bi bi-check2-circle"></i></div><div><span>Approved Hours</span><strong id="otKpiHours">0</strong></div></article><article class="portal-stat-card stat-purple employee-span-2"><div class="portal-stat-icon"><i class="bi bi-wallet2"></i></div><div><span>Payroll Link</span><strong id="otKpiApplied">Approved OT will be counted when payroll is generated.</strong></div></article></section><section class="employee-chart-grid mb-4"><article class="employee-card"><div class="card-title-row"><div><h3>Overtime Workflow Mix</h3></div></div><div class="employee-chart-box"><canvas id="employeeOtStatusChart"></canvas></div></article><article class="employee-card"><div class="card-title-row"><div><h3>Approved Hours Trend</h3></div></div><div class="employee-chart-box"><canvas id="employeeOtHoursChart"></canvas></div></article></section><section class="employee-card"><div class="table-responsive"><table class="table employee-table"><thead><tr><th>Date</th><th>Time</th><th>Hours</th><th>Status</th><th>Reason</th><th>Action</th></tr></thead><tbody id="otTableBody"></tbody></table></div></section></main></div><script src="/employee/employee.js"></script><script>
+(() => {
+ const token = localStorage.getItem('token');
+ if (!token) return;
+ const headers = {'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json'};
+ let rows = [], chart1 = null, chart2 = null;
+ const formMessage = document.getElementById('otFormMessage');
+ const api = async (u, m='GET', b) => {
+   const r = await fetch(u, { method:m, headers, body:b ? JSON.stringify(b) : undefined });
+   const ct = r.headers.get('content-type') || '';
+   const data = ct.includes('json') ? await r.json().catch(() => null) : await r.text().catch(() => '');
+   if (!r.ok) throw new Error(typeof data === 'string' ? data : (data?.message || data?.title || `Request failed (${r.status})`));
+   return r.status === 204 ? null : data;
+ };
+ const buildUrl = () => {
+   const p = new URLSearchParams();
+   if (otStatusFilter.value) p.set('status', otStatusFilter.value);
+   if (otMonthFilter.value) p.set('month', otMonthFilter.value);
+   if (otYearFilter.value) p.set('year', otYearFilter.value);
+   return '/api/OvertimeRequests/my-requests' + (p.toString() ? '?' + p.toString() : '');
+ };
+ const setMessage = (msg, ok=false) => { if (!formMessage) return; formMessage.className = `small mt-2 ${ok ? 'text-success' : 'text-danger'}`; formMessage.textContent = msg || ''; };
+ const render = () => {
+   otKpiTotal.textContent = rows.length;
+   otKpiPending.textContent = rows.filter(x => x.status === 'Pending').length;
+   otKpiHours.textContent = rows.filter(x => x.status === 'Approved').reduce((a,b) => a + Number(b.hours || 0), 0).toFixed(1);
+   otTableBody.innerHTML = rows.length ? rows.map(x => `<tr><td>${new Date(x.workDate).toLocaleDateString()}</td><td>${new Date(x.startTime).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})} - ${new Date(x.endTime).toLocaleTimeString([], {hour:'2-digit',minute:'2-digit'})}</td><td>${x.hours}</td><td><span class="status-badge ${x.status.toLowerCase()}">${x.status}</span></td><td>${x.reason || '-'}</td><td>${x.status==='Pending' ? `<button class="btn btn-sm btn-outline-danger" data-cancel-ot="${x.id}">Cancel</button>` : '-'}</td></tr>`).join('') : `<tr><td colspan="6" class="text-center text-muted py-4">No overtime requests found for the current view.</td></tr>`;
+   otTableBody.querySelectorAll('[data-cancel-ot]').forEach(btn => btn.addEventListener('click', async () => {
+     if (!confirm('Cancel this overtime request?')) return;
+     try { await api(`/api/OvertimeRequests/${btn.dataset.cancelOt}/cancel`, 'PUT', {}); setMessage('Overtime request cancelled successfully.', true); await load(); }
+     catch (err) { setMessage(err.message || 'Failed to cancel overtime request.'); }
+   }));
+   const counts = ['Pending','Approved','Rejected','Cancelled'].map(s => rows.filter(x => x.status === s).length);
+   if (chart1) chart1.destroy();
+   chart1 = new Chart(document.getElementById('employeeOtStatusChart'), { type:'doughnut', data:{ labels:['Pending','Approved','Rejected','Cancelled'], datasets:[{ data:counts, backgroundColor:['rgba(245,158,11,.82)','rgba(16,185,129,.82)','rgba(239,68,68,.82)','rgba(100,116,139,.82)'] }] }, options:{ maintainAspectRatio:false, plugins:{ legend:{ position:'bottom' } } } });
+   const approved = rows.filter(x => x.status === 'Approved').sort((a,b) => new Date(a.workDate) - new Date(b.workDate));
+   if (chart2) chart2.destroy();
+   chart2 = new Chart(document.getElementById('employeeOtHoursChart'), { type:'line', data:{ labels:approved.map(x => new Date(x.workDate).toLocaleDateString()), datasets:[{ label:'Hours', data:approved.map(x => x.hours), borderColor:'rgba(37,99,235,.95)', backgroundColor:'rgba(37,99,235,.18)', fill:true, tension:0.3 }] }, options:{ maintainAspectRatio:false, plugins:{ legend:{ display:false } } } });
+ };
+ const load = async () => { rows = await api(buildUrl()); render(); };
+ const seedTimesFromDate = () => {
+   const d = otWorkDateInput.value;
+   if (!d) return;
+   if (!otStartInput.value) otStartInput.value = `${d}T18:00`;
+   if (!otEndInput.value) otEndInput.value = `${d}T20:00`;
+ };
+ otWorkDateInput.addEventListener('change', seedTimesFromDate);
+ otSubmitBtn.onclick = async () => {
+   setMessage('');
+   const workDate = otWorkDateInput.value;
+   const startTime = otStartInput.value;
+   const endTime = otEndInput.value;
+   const reason = otReasonInput.value.trim();
+   if (!workDate || !startTime || !endTime || !reason) { setMessage('Work date, start time, end time, and reason are required.'); return; }
+   if (new Date(endTime) <= new Date(startTime)) { setMessage('End time must be later than start time.'); return; }
+   try { await api('/api/OvertimeRequests', 'POST', { workDate, startTime, endTime, reason }); setMessage('Overtime request submitted successfully.', true); otReasonInput.value=''; await load(); }
+   catch (err) { setMessage(err.message || 'Failed to submit overtime request.'); }
+ };
+ otApplyBtn.onclick = () => load().catch(err => setMessage(err.message || 'Failed to load overtime requests.'));
+ otExportBtn.onclick = () => { const headers=['Date','Start','End','Hours','Status','Reason']; const rowsCsv = rows.map(x => [new Date(x.workDate).toLocaleDateString(), new Date(x.startTime).toLocaleString(), new Date(x.endTime).toLocaleString(), x.hours, x.status, `"${String(x.reason || '').replaceAll('"','""')}"`].join(',')); const csv=[headers.join(',')].concat(rowsCsv).join('\n'); const blob=new Blob([csv],{type:'text/csv;charset=utf-8'}); const a=document.createElement('a'); a.href=URL.createObjectURL(blob); a.download='my_overtime_requests.csv'; a.click(); URL.revokeObjectURL(a.href); };
+ seedTimesFromDate();
+ load().catch(err => setMessage(err.message || 'Failed to load overtime requests.'));
+})();
+</script></body></html>

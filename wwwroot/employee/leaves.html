@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Leave Requests - Smart HR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/employee/employee.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="employee-portal-body" data-page="leaves">
+  <div class="employee-shell" id="employeeShell">
+    <aside class="employee-sidebar">
+      <div class="employee-sidebar-brand">
+        <div class="employee-brand-icon"><i class="bi bi-person-vcard"></i></div>
+        <div class="employee-brand-copy">
+          <h2>Employee</h2>
+          <p>Self-Service Portal</p>
+        </div>
+      </div>
+
+      <div class="employee-user-card">
+        <span>Welcome</span>
+        <strong id="employeeSidebarName">Employee</strong>
+        <small id="employeeSidebarMeta">Loading...</small>
+      </div>
+
+      <nav class="employee-nav">
+        <a href="/employee/overview.html" class="employee-nav-link" data-nav="overview">
+          <i class="bi bi-grid-1x2-fill"></i><span>Overview</span>
+        </a>
+        <a href="/employee/attendances.html" class="employee-nav-link" data-nav="attendances">
+          <i class="bi bi-calendar2-check-fill"></i><span>My Attendances</span>
+        </a>
+        <a href="/employee/payrolls.html" class="employee-nav-link" data-nav="payrolls">
+          <i class="bi bi-cash-stack"></i><span>My Payrolls</span>
+        </a>
+        <a href="/employee/leaves.html" class="employee-nav-link" data-nav="leaves">
+          <i class="bi bi-journal-check"></i><span>My Leave Requests</span>
+        </a>
+        <a href="/employee/profile.html" class="employee-nav-link" data-nav="profile">
+          <i class="bi bi-person-lines-fill"></i><span>Profile & Password</span>
+        </a>
+      </nav>
+
+      <button id="employeeLogoutBtn" class="btn btn-danger employee-logout-btn">
+        <i class="bi bi-box-arrow-right"></i>
+        Logout
+      </button>
+    </aside>
+
+    <div class="employee-backdrop" id="employeeBackdrop"></div>
+
+    <main class="employee-main">
+      <div class="employee-topbar">
+        <button id="employeeMenuToggle" class="employee-icon-btn" type="button">
+          <i class="bi bi-list"></i>
+        </button>
+
+        <div class="employee-topbar-meta">
+          <span class="employee-topbar-chip">Employee Portal</span>
+          <h1>My Leave Requests</h1>
+        </div>
+
+        <a href="/" class="btn btn-outline-primary employee-home-btn">
+          <i class="bi bi-house-door-fill"></i>
+          Home
+        </a>
+      </div>
+
+      
+<section class="employee-card mb-4">
+  <div class="card-title-row">
+    <div>
+      <h3>My Leave Requests</h3>
+      <p class="card-subtitle">Submit leave requests, review status, and cancel a pending request when allowed.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <div class="col-12 col-xl-5">
+      <div class="sub-card">
+        <h4 class="sub-card-title">Create Leave Request</h4>
+        <form id="leaveCreateForm" class="vstack gap-3">
+          <div>
+            <label class="form-label">Leave Type</label>
+            <select id="leaveTypeInput" class="form-select" required>
+              <option value="">Select type</option>
+              <option value="AnnualLeave">Annual Leave</option>
+              <option value="SickLeave">Sick Leave</option>
+              <option value="UnpaidLeave">Unpaid Leave</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div>
+            <label class="form-label">Start Date</label>
+            <input id="leaveStartDateInput" type="date" class="form-control" required />
+          </div>
+          <div>
+            <label class="form-label">End Date</label>
+            <input id="leaveEndDateInput" type="date" class="form-control" required />
+          </div>
+          <div>
+            <label class="form-label">Reason</label>
+            <textarea id="leaveReasonInput" class="form-control" rows="4" placeholder="Explain your reason"></textarea>
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="bi bi-plus-circle"></i> Submit Request
+          </button>
+        </form>
+        <div id="leaveCreateMessage" class="mt-3 small"></div>
+      </div>
+    </div>
+
+    <div class="col-12 col-xl-7">
+      <div class="sub-card h-100">
+        <h4 class="sub-card-title">Filter My Requests</h4>
+        <div class="row g-3">
+          <div class="col-12 col-md-6">
+            <label class="form-label">Status</label>
+            <select id="leaveStatusFilter" class="form-select">
+              <option value="">All</option>
+              <option value="Pending">Pending</option>
+              <option value="Approved">Approved</option>
+              <option value="Rejected">Rejected</option>
+              <option value="Cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-6">
+            <label class="form-label">Leave Type</label>
+            <select id="leaveTypeFilter" class="form-select">
+              <option value="">All</option>
+              <option value="AnnualLeave">Annual Leave</option>
+              <option value="SickLeave">Sick Leave</option>
+              <option value="UnpaidLeave">Unpaid Leave</option>
+              <option value="Other">Other</option>
+            </select>
+          </div>
+          <div class="col-12 col-md-3"><label class="form-label">Month</label><input id="leaveMonthFilter" type="number" class="form-control" placeholder="Month"></div><div class="col-12 col-md-3"><label class="form-label">Year</label><input id="leaveYearFilter" type="number" class="form-control" placeholder="Year"></div><div class="col-12 col-md-6"><label class="form-label">Search</label><input id="leaveSearchInput" class="form-control" placeholder="Search by reason or type"></div><div class="col-12 col-md-3"><label class="form-label">Page Size</label><select id="leavePageSize" class="form-select"><option>5</option><option selected>10</option><option>20</option></select></div><div class="col-12">
+            <div class="d-flex gap-2 flex-wrap">
+              <button id="leaveFilterBtn" class="btn btn-primary">
+                <i class="bi bi-funnel"></i> Apply Filters
+              </button>
+              <button id="leaveResetBtn" class="btn btn-outline-secondary">
+                <i class="bi bi-arrow-counterclockwise"></i> Reset
+              </button><button id="leaveExportCsvBtn" class="btn btn-outline-secondary"><i class="bi bi-filetype-csv"></i> Export CSV</button><button id="leaveExportPrintBtn" class="btn btn-outline-dark"><i class="bi bi-printer"></i> Print / PDF</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="employee-kpi-grid mb-4">
+  <article class="portal-stat-card stat-green"><div class="portal-stat-icon"><i class="bi bi-calendar-check"></i></div><div><span>Annual Remaining</span><strong id="leaveBalanceAnnualRemaining">0</strong></div></article>
+  <article class="portal-stat-card stat-blue"><div class="portal-stat-icon"><i class="bi bi-bandaid"></i></div><div><span>Sick Remaining</span><strong id="leaveBalanceSickRemaining">0</strong></div></article>
+  <article class="portal-stat-card stat-purple"><div class="portal-stat-icon"><i class="bi bi-arrow-repeat"></i></div><div><span>Carry Forward</span><strong id="leaveBalanceCarryForward">0</strong></div></article>
+  <article class="portal-stat-card stat-orange-soft"><div class="portal-stat-icon"><i class="bi bi-dash-circle"></i></div><div><span>Unpaid Days</span><strong id="leaveBalanceUnpaidDays">0</strong></div></article>
+  <article class="portal-stat-card stat-cyan employee-span-2"><div class="portal-stat-icon"><i class="bi bi-calendar3"></i></div><div><span>Balance Year</span><strong id="leaveBalanceYearLabel"></strong></div></article>
+</section>
+<section class="employee-kpi-grid mb-4">
+  <article class="portal-stat-card stat-orange-soft"><div class="portal-stat-icon"><i class="bi bi-send-check"></i></div><div><span>Total Requests</span><strong id="leaveKpiTotal">0</strong></div></article>
+  <article class="portal-stat-card stat-green"><div class="portal-stat-icon"><i class="bi bi-check2-circle"></i></div><div><span>Approved Days</span><strong id="leaveKpiApprovedDays">0</strong></div></article>
+  <article class="portal-stat-card stat-blue"><div class="portal-stat-icon"><i class="bi bi-hourglass-split"></i></div><div><span>Pending Requests</span><strong id="leaveKpiPending">0</strong></div></article>
+  <article class="portal-stat-card stat-purple"><div class="portal-stat-icon"><i class="bi bi-calendar-range"></i></div><div><span>Filtered Days</span><strong id="leaveKpiFilteredDays">0</strong></div></article>
+  <article class="portal-stat-card stat-cyan employee-span-2"><div class="portal-stat-icon"><i class="bi bi-megaphone"></i></div><div><span>Current Focus</span><strong id="leaveKpiFocus">Leave workflow snapshot</strong></div></article>
+</section>
+
+<section class="employee-chart-grid mb-4">
+  <article class="employee-card"><div class="card-title-row"><div><h3>Leave Workflow Mix</h3><p class="card-subtitle">Pending, approved, rejected, and cancelled requests in the current filtered view.</p></div></div><div class="employee-chart-box"><canvas id="employeeLeaveStatusChart"></canvas></div></article>
+  <article class="employee-card"><div class="card-title-row"><div><h3>Leave Type Mix</h3><p class="card-subtitle">Compare annual, sick, unpaid, and other requests.</p></div></div><div class="employee-chart-box"><canvas id="employeeLeaveTypeChart"></canvas></div></article>
+  <article class="employee-card"><div class="card-title-row"><div><h3>Workflow Highlights</h3><p class="card-subtitle">Quick cues you can mention during a self-service demo.</p></div></div><div id="employeeLeaveHighlights" class="employee-timeline-list"></div></article>
+</section>
+
+<section class="employee-card">
+  <div class="d-flex flex-wrap justify-content-between gap-3 align-items-start mb-3">
+    <div>
+      <h4 class="sub-card-title mb-1">My Leave Requests</h4>
+      <p class="text-muted mb-0">Review your request status, cancel pending submissions, and inspect the workflow timeline for every leave record.</p>
+    </div>
+    <div class="mini-request-stats" id="employeeLeaveStats"></div>
+  </div>
+  <div class="table-responsive">
+    <table class="table employee-table mb-0">
+      <thead>
+        <tr>
+          <th>Type</th>
+          <th>Dates</th>
+          <th>Total Days</th>
+          <th>Status</th>
+          <th>Reason</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody id="leaveTableBody"></tbody>
+    </table>
+  </div>
+  <div id="employeeLeavePaging" class="mt-3"></div>
+  <div id="employeeLeaveHistoryPanel" class="employee-inline-history mt-3"></div>
+</section>
+
+<section class="employee-story-block mt-4">
+  <div class="story-grid single-image">
+    <div class="story-copy">
+      <span class="mini-chip">Leave Workflow</span>
+      <h3>Track request lifecycle clearly</h3>
+      <p>
+        This page keeps the full history of your requests so you can identify pending actions, approved periods, and cancelled submissions easily.
+      </p>
+    </div>
+    <div class="story-image-stack">
+      <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=900&auto=format&fit=crop" alt="Leave process" />
+    </div>
+  </div>
+</section>
+
+    </main>
+  </div>
+
+  <script>fetch(`/api/LeaveRequests/my-balance?year=${new Date().getFullYear()}`, { headers: { Authorization: `Bearer ${localStorage.getItem("token")}` } }).then(r => r.ok ? r.json() : null).then(data => { if (!data) return; document.getElementById("leaveBalanceAnnualRemaining").textContent = Number(data.annualRemaining ?? 0).toFixed(1); document.getElementById("leaveBalanceSickRemaining").textContent = Number(data.sickRemaining ?? 0).toFixed(1); document.getElementById("leaveBalanceCarryForward").textContent = Number(data.carryForward ?? 0).toFixed(1); document.getElementById("leaveBalanceUnpaidDays").textContent = Number(data.unpaidDays ?? 0).toFixed(1); document.getElementById("leaveBalanceYearLabel").textContent = data.year; }).catch(() => {});</script>
+  <script src="/employee/employee.js"></script>
+</body>
+</html>

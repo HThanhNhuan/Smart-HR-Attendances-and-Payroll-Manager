@@ -1,0 +1,87 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Smart HR Login</title>
+    <link rel="stylesheet" href="/admin/styles.css" />
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+</head>
+<body class="login-page">
+    <div class="login-layout">
+        <section class="login-info-card">
+            <span class="hero-tag">Smart HR Platform</span>
+            <h1>Sign in to continue</h1>
+            <p>
+                Use one account and the system will automatically redirect you to the correct workspace:
+                Admin/HR dashboard or Employee self-service portal.
+            </p>
+
+            <div class="login-feature-list">
+                <div class="login-feature-item">
+                    <i class="bi bi-person-badge-fill"></i>
+                    <div>
+                        <strong>Admin / HR</strong>
+                        <span>Access dashboard, analytics, leave approvals, payroll and operations</span>
+                    </div>
+                </div>
+
+                <div class="login-feature-item">
+                    <i class="bi bi-person-circle"></i>
+                    <div>
+                        <strong>Employee</strong>
+                        <span>Access profile, attendances, payrolls, leave requests and password change</span>
+                    </div>
+                </div>
+
+                <div class="login-feature-item">
+                    <i class="bi bi-arrow-repeat"></i>
+                    <div>
+                        <strong>Automatic Redirect</strong>
+                        <span>After login, the system routes you to the correct page based on your role</span>
+                    </div>
+                </div>
+            </div>
+
+            <a class="btn btn-outline light-outline" href="/">
+                <i class="bi bi-arrow-left-circle"></i>
+                Back to Home
+            </a>
+        </section>
+
+        <section class="auth-card auth-card-enhanced">
+            <div class="auth-top">
+                <div class="auth-logo">
+                    <i class="bi bi-shield-lock-fill"></i>
+                </div>
+                <div>
+                    <h2>Login</h2>
+                    <p class="muted">Role-based automatic navigation</p>
+                </div>
+            </div>
+
+            <form id="sharedLoginForm" class="form">
+                <label>
+                    Username
+                    <input type="text" id="username" placeholder="Enter username" required />
+                </label>
+
+                <label>
+                    Password
+                    <input type="password" id="password" placeholder="Enter password" required />
+                </label>
+
+                <button type="submit" class="btn btn-primary full-width">
+                    <i class="bi bi-box-arrow-in-right"></i>
+                    Login
+                </button>
+            </form>
+
+            <p id="loginError" class="error"></p>
+        </section>
+    </div>
+
+    <script src="/login.js"></script>
+</body>
+</html>

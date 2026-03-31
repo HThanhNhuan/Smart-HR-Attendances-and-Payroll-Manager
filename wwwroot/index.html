@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart HR System</title>
+  <link rel="stylesheet" href="/admin/styles.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  
+  <style>
+    .landing-page {
+      background: linear-gradient(180deg, #f5f8ff 0%, #eef3fb 100%);
+      overflow-x: clip;
+    }
+
+    .landing-page main {
+      overflow-x: clip;
+    }
+
+    .site-header {
+      position: fixed;
+      top: 18px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: min(1440px, calc(100% - 28px));
+      z-index: 20;
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-radius: 24px;
+      background: rgba(5, 11, 26, 0.62);
+      backdrop-filter: blur(14px);
+      border: 1px solid rgba(255,255,255,0.12);
+      box-shadow: 0 22px 50px rgba(15, 23, 42, 0.18);
+    }
+
+    .site-header.scrolled {
+      background: rgba(5, 11, 26, 0.84);
+      box-shadow: 0 22px 54px rgba(8, 18, 37, 0.30);
+    }
+
+    .site-nav {
+      gap: 16px;
+    }
+
+    .site-nav > a:not(.btn) {
+      opacity: 0.92;
+    }
+
+    .hero {
+      min-height: 100svh;
+      padding: 126px 28px 72px;
+      display: flex;
+      align-items: center;
+      transition: background-image 0.8s ease;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 20% 25%, rgba(59, 130, 246, 0.22), transparent 32%),
+        linear-gradient(94deg, rgba(3, 7, 18, 0.88) 0%, rgba(3, 7, 18, 0.66) 40%, rgba(3, 7, 18, 0.22) 100%);
+      z-index: 0;
+    }
+
+    .hero-shell {
+      position: relative;
+      z-index: 2;
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: minmax(0, 1.03fr) minmax(350px, 0.97fr);
+      gap: 34px;
+      align-items: center;
+    }
+
+    .hero-copy-col {
+      min-width: 0;
+      max-width: 760px;
+      padding-left: 8px;
+    }
+
+    .hero-content {
+      max-width: 100%;
+    }
+
+    .hero-content h2 {
+      max-width: 13ch;
+      font-size: clamp(3.2rem, 6.1vw, 6rem);
+      line-height: 0.98;
+      letter-spacing: -0.055em;
+      text-wrap: balance;
+      margin-bottom: 20px;
+    }
+
+    .hero-content p {
+      max-width: 720px;
+      font-size: 1.16rem;
+      line-height: 1.78;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .hero-actions {
+      align-items: center;
+      gap: 14px;
+      margin-top: 30px;
+    }
+
+    .hero-visual-stack {
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      max-width: 920px;
+    }
+
+    .visual-card {
+      padding: 18px;
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 18px 34px rgba(3, 7, 18, 0.18);
+      min-height: 156px;
+    }
+
+    .visual-card i {
+      font-size: 1.45rem;
+      color: #9dd3ff;
+      margin-bottom: 12px;
+      display: inline-block;
+    }
+
+    .visual-card strong {
+      display: block;
+      font-size: 1.04rem;
+      margin-bottom: 10px;
+    }
+
+    .visual-card span {
+      color: rgba(255,255,255,0.84);
+      line-height: 1.65;
+      font-size: 0.94rem;
+    }
+
+    .hero-side-col {
+      min-width: 0;
+    }
+
+    .executive-panel {
+      padding: 22px;
+      border-radius: 30px;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255,255,255,0.14);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 26px 58px rgba(3, 7, 18, 0.22);
+      overflow: hidden;
+    }
+
+    .executive-panel .panel-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border-radius: 999px;
+      background: rgba(37, 99, 235, 0.18);
+      color: #c7ddff;
+      font-size: 0.84rem;
+      font-weight: 800;
+      letter-spacing: 0.02em;
+      margin-bottom: 16px;
+    }
+
+    .executive-panel h3 {
+      font-size: 2rem;
+      line-height: 1.1;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+      color: #fff;
+    }
+
+    .executive-panel p {
+      color: rgba(255,255,255,0.82);
+      line-height: 1.7;
+    }
+
+    .exec-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .exec-tile, .exec-photo-card {
+      border-radius: 22px;
+      overflow: hidden;
+      background: rgba(255,255,255,0.10);
+      border: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .exec-tile {
+      padding: 18px;
+    }
+
+    .exec-tile span {
+      display: block;
+      font-size: 0.85rem;
+      color: rgba(255,255,255,0.72);
+      margin-bottom: 10px;
+    }
+
+    .exec-tile strong {
+      display: block;
+      font-size: 1.9rem;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: #fff;
+      margin-bottom: 10px;
+    }
+
+    .exec-tile small {
+      color: rgba(255,255,255,0.78);
+      line-height: 1.6;
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .exec-photo-card {
+      min-height: 190px;
+      background-size: cover;
+      background-position: center;
+      box-shadow: inset 0 -110px 110px rgba(3, 7, 18, 0.55);
+      position: relative;
+    }
+
+    .exec-photo-card .photo-copy {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 16px;
+      color: #fff;
+    }
+
+    .exec-photo-card strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.04rem;
+    }
+
+    .exec-photo-card span {
+      display: block;
+      color: rgba(255,255,255,0.84);
+      font-size: 0.9rem;
+      line-height: 1.6;
+    }
+
+    .metrics-strip {
+      padding: 0 28px;
+      margin-top: -38px;
+      position: relative;
+      z-index: 4;
+    }
+
+    .metrics-grid {
+      width: min(1440px, 100%);
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .metric-tile {
+      background: rgba(255,255,255,0.94);
+      border: 1px solid rgba(148,163,184,0.14);
+      box-shadow: 0 18px 40px rgba(15,23,42,0.08);
+      border-radius: 26px;
+      padding: 22px;
+      backdrop-filter: blur(10px);
+    }
+
+    .metric-tile span {
+      display: block;
+      color: #64748b;
+      font-size: 0.92rem;
+      margin-bottom: 10px;
+      font-weight: 800;
+    }
+
+    .metric-tile strong {
+      font-size: 2.25rem;
+      color: #0f172a;
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .landing-section {
+      padding: 82px 28px;
+      overflow: visible;
+    }
+
+    .landing-section > * {
+      width: min(1440px, 100%);
+      margin-inline: auto;
+    }
+
+    .spotlight-grid {
+      display: grid;
+      grid-template-columns: 1.08fr 0.92fr;
+      gap: 24px;
+      align-items: stretch;
+    }
+
+    .spotlight-panel,
+    .gallery-panel,
+    .story-panel,
+    .faq-panel,
+    .cta-panel {
+      background: rgba(255,255,255,0.94);
+      border-radius: 30px;
+      box-shadow: 0 22px 50px rgba(15,23,42,0.08);
+      overflow: hidden;
+      border: 1px solid rgba(148,163,184,0.14);
+    }
+
+    .spotlight-copy {
+      padding: 34px;
+    }
+
+    .spotlight-copy h3,
+    .gallery-panel h3,
+    .story-panel h3,
+    .faq-panel h3,
+    .cta-panel h3 {
+      font-size: 2rem;
+      margin-bottom: 14px;
+      letter-spacing: -0.03em;
+    }
+
+    .spotlight-copy p,
+    .story-panel p,
+    .faq-panel p,
+    .cta-panel p {
+      color: #64748b;
+      line-height: 1.78;
+      font-size: 1rem;
+    }
+
+    .spotlight-list {
+      margin-top: 20px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .spotlight-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 14px 16px;
+      background: #f8fbff;
+      border: 1px solid #e7eef9;
+      border-radius: 18px;
+    }
+
+    .spotlight-item i {
+      color: #2563eb;
+      margin-top: 2px;
+      font-size: 1.1rem;
+    }
+
+    .spotlight-image {
+      min-height: 100%;
+      background-size: cover;
+      background-position: center;
+      background-image: linear-gradient(120deg, rgba(37,99,235,0.18), rgba(139,92,246,0.12)), url('https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1400&auto=format&fit=crop');
+    }
+
+    .gallery-panel,
+    .story-panel,
+    .faq-panel,
+    .cta-panel {
+      padding: 30px;
+    }
+
+    .image-gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin-top: 22px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 22px;
+      cursor: pointer;
+      aspect-ratio: 1 / 0.78;
+      box-shadow: 0 16px 30px rgba(15,23,42,0.12);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.45s ease;
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+    }
+
+    .gallery-item .gallery-caption {
+      position: absolute;
+      left: 12px;
+      right: 12px;
+      bottom: 12px;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(8,18,37,0.56);
+      color: #fff;
+      font-size: 0.86rem;
+      font-weight: 700;
+      backdrop-filter: blur(10px);
+    }
+
+    .story-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 18px;
+    }
+
+    .story-step {
+      background: #f8fbff;
+      border: 1px solid #e7eef9;
+      border-radius: 22px;
+      padding: 20px;
+    }
+
+    .story-step .step-no {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 38px;
+      height: 38px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #2563eb, #8b5cf6);
+      color: #fff;
+      font-weight: 800;
+      margin-bottom: 14px;
+    }
+
+    .story-step strong {
+      display: block;
+      margin-bottom: 10px;
+      font-size: 1.02rem;
+    }
+
+    .story-step span {
+      color: #64748b;
+      line-height: 1.65;
+      font-size: 0.95rem;
+    }
+
+    .testimonial-track {
+      position: relative;
+      min-height: 152px;
+      margin-top: 18px;
+    }
+
+    .testimonial-card {
+      position: absolute;
+      inset: 0;
+      padding: 22px;
+      border-radius: 22px;
+      background: linear-gradient(180deg, #f9fbff, #f3f8ff);
+      border: 1px solid #e4ecf8;
+      opacity: 0;
+      transform: translateY(14px);
+      transition: opacity 0.45s ease, transform 0.45s ease;
+    }
+
+    .testimonial-card.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .testimonial-card p {
+      font-size: 1rem;
+      line-height: 1.8;
+      color: #334155;
+      margin-bottom: 14px;
+    }
+
+    .testimonial-card strong {
+      display: block;
+      color: #0f172a;
+    }
+
+    .testimonial-card span {
+      color: #64748b;
+      font-size: 0.92rem;
+    }
+
+    .faq-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .faq-item {
+      border: 1px solid #e5edf8;
+      border-radius: 18px;
+      background: #fbfdff;
+      overflow: hidden;
+    }
+
+    .faq-item summary {
+      list-style: none;
+      cursor: pointer;
+      padding: 18px 18px;
+      font-weight: 800;
+      position: relative;
+    }
+
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary::after {
+      content: '+';
+      position: absolute;
+      right: 18px;
+      top: 16px;
+      font-size: 1.2rem;
+      color: #2563eb;
+    }
+    .faq-item[open] summary::after { content: '–'; }
+    .faq-item .faq-content {
+      padding: 0 18px 18px;
+      color: #64748b;
+      line-height: 1.75;
+    }
+
+    .cta-panel {
+      position: relative;
+      background:
+        linear-gradient(135deg, rgba(37,99,235,0.96), rgba(139,92,246,0.92)),
+        url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1600&auto=format&fit=crop');
+      background-size: cover;
+      background-position: center;
+      color: #fff;
+    }
+
+    .cta-panel p {
+      color: rgba(255,255,255,0.9);
+      max-width: 760px;
+      margin-bottom: 22px;
+    }
+
+    .cta-actions {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .role-hint {
+      margin-top: 14px;
+      font-size: 0.92rem;
+      color: rgba(255,255,255,0.88);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+    .reveal.reveal-in {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      background: rgba(2, 6, 23, 0.82);
+      z-index: 1200;
+      backdrop-filter: blur(8px);
+    }
+
+    .lightbox.open { display: flex; }
+
+    .lightbox-inner {
+      width: min(1100px, 100%);
+      border-radius: 24px;
+      overflow: hidden;
+      background: #0f172a;
+      box-shadow: 0 28px 70px rgba(2, 6, 23, 0.35);
+    }
+
+    .lightbox-inner img {
+      width: 100%;
+      max-height: 72vh;
+      object-fit: cover;
+    }
+
+    .lightbox-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 16px 20px;
+      color: #fff;
+    }
+
+    .lightbox-close {
+      border: none;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      border-radius: 12px;
+      width: 42px;
+      height: 42px;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+
+    @media (max-width: 1200px) {
+      .hero-shell,
+      .spotlight-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-copy-col {
+        max-width: 100%;
+        padding-left: 0;
+      }
+
+      .hero-visual-stack,
+      .metrics-grid,
+      .story-grid,
+      .image-gallery-grid,
+      .exec-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .spotlight-image {
+        min-height: 320px;
+      }
+    }
+
+    @media (max-width: 900px) {
+      .site-header {
+        width: calc(100% - 20px);
+        padding: 14px 16px;
+        gap: 14px;
+      }
+
+      .site-nav {
+        gap: 10px;
+      }
+
+      .hero {
+        padding: 122px 20px 58px;
+        min-height: auto;
+      }
+
+      .landing-section,
+      .metrics-strip {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+
+      .hero-content h2 {
+        max-width: 11ch;
+      }
+    }
+
+    @media (max-width: 767px) {
+      .site-header {
+        top: 10px;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .brand-badge {
+        width: 52px;
+        height: 52px;
+        border-radius: 16px;
+      }
+
+      .brand h1 {
+        font-size: 1.7rem;
+      }
+
+      .brand p {
+        font-size: 0.92rem;
+      }
+
+      .site-nav {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero-content h2 {
+        font-size: clamp(2.8rem, 11vw, 4rem);
+        max-width: none;
+      }
+
+      .hero-content p {
+        font-size: 1rem;
+      }
+
+      .hero-visual-stack,
+      .metrics-grid,
+      .story-grid,
+      .image-gallery-grid,
+      .exec-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .metric-tile strong {
+        font-size: 1.9rem;
+      }
+    }
+  </style>
+
+</head>
+<body class="landing-page">
+  <header class="site-header" id="siteHeader">
+    <div class="brand">
+      <div class="brand-badge"><i class="bi bi-buildings-fill"></i></div>
+      <div>
+        <h1>Smart HR</h1>
+        <p>Attendance, Payroll and Leave Management</p>
+      </div>
+    </div>
+
+    <nav class="site-nav">
+      <a href="#features">Features</a>
+      <a href="#gallery">Gallery</a>
+      <a href="#modules">Modules</a>
+      <a href="#about">About</a>
+      <a class="btn btn-outline" href="/employee/login.html" id="navEmployeeBtn">
+        <i class="bi bi-person-circle"></i>
+        Employee Login
+      </a>
+      <a class="btn btn-primary" href="/login.html" id="navLoginBtn">
+        <i class="bi bi-box-arrow-in-right"></i>
+        Login
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    
+    <section class="hero" id="heroSection">
+      <div class="hero-shell">
+        <div class="hero-copy-col">
+          <div class="hero-content">
+            <span class="hero-tag">HR Management Platform</span>
+            <h2>Modern HR operations dashboard for attendance, payroll, and leave control</h2>
+            <p>
+              Smart HR is a business-oriented platform that brings employee records, attendance tracking,
+              payroll review, leave workflows, and role-based administration into one polished internal system
+              for Admin, HR, Manager, and Employee users.
+            </p>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="/login.html" id="heroLoginBtn">
+                <i class="bi bi-box-arrow-in-right"></i>
+                Login by Role
+              </a>
+              <a class="btn btn-outline" href="/login.html" id="heroAdminBtn">
+                <i class="bi bi-shield-lock-fill"></i>
+                Admin / HR Login
+              </a>
+              <a class="btn btn-outline" href="/employee/login.html" id="heroEmployeeBtn">
+                <i class="bi bi-person-circle"></i>
+                Employee Portal
+              </a>
+            </div>
+
+            <div class="hero-visual-stack reveal">
+              <div class="visual-card">
+                <i class="bi bi-graph-up-arrow"></i>
+                <strong>Role-based navigation</strong>
+                <span>One shared entry can route users into the correct workspace without mixing management and self-service flows.</span>
+              </div>
+              <div class="visual-card">
+                <i class="bi bi-calendar2-week-fill"></i>
+                <strong>Operational clarity</strong>
+                <span>Attendance, payroll, leave, and approvals remain visible in a connected workflow instead of scattered spreadsheets.</span>
+              </div>
+              <div class="visual-card">
+                <i class="bi bi-stars"></i>
+                <strong>Presentation-ready</strong>
+                <span>Business dashboards, charts, and visual stories make the platform cleaner for demo, thesis screenshots, and portfolio use.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-side-col reveal">
+          <article class="executive-panel">
+            <span class="panel-label"><i class="bi bi-briefcase-fill"></i> Business production snapshot</span>
+            <h3>One system for workforce records, monthly control, and self-service flow</h3>
+            <p>
+              Built to feel closer to a real internal HR platform, Smart HR separates Admin, HR, Manager, and Employee experiences while keeping payroll, attendance, and approvals connected.
+            </p>
+
+            <div class="exec-grid">
+              <div class="exec-tile">
+                <span>Core modules</span>
+                <strong>8+</strong>
+                <small>Attendance, payroll, leave, overtime, schedules, reports, profiles, and AI-assisted review.</small>
+              </div>
+              <div class="exec-tile">
+                <span>Role experiences</span>
+                <strong>4</strong>
+                <small>Admin, HR, Manager, and Employee workspaces with role-aware routing and permissions.</small>
+              </div>
+              <div class="exec-photo-card" style="background-image: linear-gradient(120deg, rgba(37,99,235,0.12), rgba(139,92,246,0.08)), url('https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=1200&auto=format&fit=crop');">
+                <div class="photo-copy">
+                  <strong>Executive dashboard ready</strong>
+                  <span>Built for live demo, screenshots, and practical internal workflow storytelling.</span>
+                </div>
+              </div>
+              <div class="exec-photo-card" style="background-image: linear-gradient(120deg, rgba(14,165,233,0.14), rgba(37,99,235,0.08)), url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop');">
+                <div class="photo-copy">
+                  <strong>Operational analytics</strong>
+                  <span>Monthly summaries, management insight, and workforce visibility in one place.</span>
+                </div>
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="metrics-strip">
+
+      <div class="metrics-grid">
+        <article class="metric-tile reveal">
+          <span>Core Modules</span>
+          <strong data-count="8">0</strong>
+        </article>
+        <article class="metric-tile reveal">
+          <span>User Roles</span>
+          <strong data-count="3">0</strong>
+        </article>
+        <article class="metric-tile reveal">
+          <span>Main Workspaces</span>
+          <strong data-count="2">0</strong>
+        </article>
+        <article class="metric-tile reveal">
+          <span>Frontend Views</span>
+          <strong data-count="12">0</strong>
+        </article>
+      </div>
+    </section>
+
+    <section id="features" class="landing-section reveal">
+      <div class="section-heading">
+        <span>Core Features</span>
+        <h3>Designed for HR operations and employee self-service</h3>
+      </div>
+
+      <div class="feature-grid">
+        <article class="feature-card">
+          <div class="feature-icon"><i class="bi bi-person-vcard-fill"></i></div>
+          <h4>Employee Profiles</h4>
+          <p>Manage employee records, department assignment, position, salary, and profile information.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon"><i class="bi bi-fingerprint"></i></div>
+          <h4>Attendance Tracking</h4>
+          <p>Track present, late, absent, remote, and leave attendance records with monthly summaries.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon"><i class="bi bi-cash-coin"></i></div>
+          <h4>Payroll Calculation</h4>
+          <p>Generate individual and batch payrolls based on monthly attendance and leave data.</p>
+        </article>
+
+        <article class="feature-card">
+          <div class="feature-icon"><i class="bi bi-file-earmark-check-fill"></i></div>
+          <h4>Leave Approval</h4>
+          <p>Employees submit requests, while HR/Admin can approve, reject, and monitor leave status.</p>
+        </article>
+      </div>
+    </section>
+
+    <section class="landing-section reveal">
+      <div class="spotlight-grid">
+        <article class="spotlight-panel">
+          <div class="spotlight-copy">
+            <span class="hero-tag">Workflow Story</span>
+            <h3>What the system helps your organization do</h3>
+            <p>
+              Smart HR is more than CRUD screens. It connects people, operations, approvals,
+              payroll decisions, and reporting so your demo looks closer to a real internal business system.
+            </p>
+            <div class="spotlight-list">
+              <div class="spotlight-item">
+                <i class="bi bi-check2-square"></i>
+                <div><strong>Employees</strong> update profile data, review records, submit leave requests, and change passwords.</div>
+              </div>
+              <div class="spotlight-item">
+                <i class="bi bi-person-badge"></i>
+                <div><strong>HR/Admin</strong> review statistics, generate payroll, approve leave, and monitor operational summaries.</div>
+              </div>
+              <div class="spotlight-item">
+                <i class="bi bi-diagram-3"></i>
+                <div><strong>Management view</strong> becomes easier with department headcount, recent activities, monthly charts, and dashboards.</div>
+              </div>
+            </div>
+          </div>
+        </article>
+        <article class="spotlight-panel">
+          <div class="spotlight-image"></div>
+        </article>
+      </div>
+    </section>
+
+    <section id="gallery" class="landing-section reveal">
+      <div class="section-heading">
+        <span>Workplace Gallery</span>
+        <h3>Visual inspiration for modern HR, admin, and self-service systems</h3>
+      </div>
+
+      <article class="gallery-panel">
+        <p>
+          Click any image to preview it. These visual blocks help the landing page look fuller,
+          richer, and more presentation-ready when you demo the project.
+        </p>
+
+        <div class="image-gallery-grid">
+          <div class="gallery-item" data-caption="Workspace collaboration and planning">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop" alt="Workspace collaboration" />
+            <div class="gallery-caption">Workspace collaboration</div>
+          </div>
+          <div class="gallery-item" data-caption="Team administration and review meeting">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=1200&auto=format&fit=crop" alt="Team meeting" />
+            <div class="gallery-caption">Team review meeting</div>
+          </div>
+          <div class="gallery-item" data-caption="Dashboard and analytics working desk">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop" alt="Analytics dashboard desk" />
+            <div class="gallery-caption">Analytics and dashboard</div>
+          </div>
+          <div class="gallery-item" data-caption="Remote work and employee self-service environment">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1516321497487-e288fb19713f?q=80&w=1200&auto=format&fit=crop" alt="Remote working" />
+            <div class="gallery-caption">Remote and self-service</div>
+          </div>
+          <div class="gallery-item" data-caption="Payroll, finance, and approval operations">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop" alt="Payroll and finance" />
+            <div class="gallery-caption">Payroll and finance</div>
+          </div>
+          <div class="gallery-item" data-caption="Administrative workflow and office system usage">
+            <img loading="lazy" src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop" alt="Office admin workflow" />
+            <div class="gallery-caption">Administrative workflow</div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section class="landing-section reveal">
+      <div class="story-panel">
+        <div class="section-heading" style="margin-bottom: 12px;">
+          <span>How It Works</span>
+          <h3>Typical user journey inside the system</h3>
+        </div>
+        <p>
+          The platform now supports clearer separation between Admin/HR actions and Employee self-service actions.
+          This also makes the UI scale better when your data grows.
+        </p>
+
+        <div class="story-grid">
+          <div class="story-step">
+            <div class="step-no">1</div>
+            <strong>Login and role detection</strong>
+            <span>Users authenticate once, and the platform routes them to the correct workspace based on role.</span>
+          </div>
+          <div class="story-step">
+            <div class="step-no">2</div>
+            <strong>Daily operations</strong>
+            <span>Employees review attendance, payroll, leave history, and profile data while HR/Admin manage approvals and reporting.</span>
+          </div>
+          <div class="story-step">
+            <div class="step-no">3</div>
+            <strong>Managerial visibility</strong>
+            <span>Admin and HR use dashboards, charts, recent activity panels, and monthly summaries to monitor the organization.</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="modules" class="landing-section light-section reveal">
+      <div class="section-heading">
+        <span>System Modules</span>
+        <h3>Main business modules available in the current system</h3>
+      </div>
+
+      <div class="module-grid">
+        <div class="module-card">
+          <i class="bi bi-shield-lock-fill"></i>
+          <div>
+            <h4>Authentication & Roles</h4>
+            <p>JWT-based authentication with Admin, HR, and Employee roles.</p>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <i class="bi bi-diagram-3-fill"></i>
+          <div>
+            <h4>Departments & Positions</h4>
+            <p>Maintain organizational structure for employee assignment.</p>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <i class="bi bi-journal-text"></i>
+          <div>
+            <h4>Leave Requests</h4>
+            <p>Submission, approval, rejection, cancellation, and leave analytics.</p>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <i class="bi bi-bar-chart-line-fill"></i>
+          <div>
+            <h4>Dashboard Analytics</h4>
+            <p>Overview cards, monthly statistics, recent records, and department headcount.</p>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <i class="bi bi-person-workspace"></i>
+          <div>
+            <h4>Employee Portal</h4>
+            <p>Employees can view profile, attendance, payroll, leave requests, and change password.</p>
+          </div>
+        </div>
+
+        <div class="module-card">
+          <i class="bi bi-graph-up-arrow"></i>
+          <div>
+            <h4>Admin Dashboard</h4>
+            <p>HR/Admin users can monitor charts, statistics, summaries, and recent activities.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section reveal">
+      <div class="story-panel">
+        <div class="section-heading" style="margin-bottom: 12px;">
+          <span>Demo Script Support</span>
+          <h3>Suggested presenter notes for your project demo</h3>
+        </div>
+        <p>
+          You can use these talking points during demo or thesis presentation to make the system feel more complete and intentional.
+        </p>
+
+        <div class="testimonial-track" id="testimonialTrack">
+          <article class="testimonial-card active">
+            <p>
+              “First, I show the landing page as the public entry point. Then I explain that the system separates Admin/HR and Employee workflows while still using a shared authentication model.”
+            </p>
+            <strong>Demo script 1</strong>
+            <span>Landing page introduction</span>
+          </article>
+          <article class="testimonial-card">
+            <p>
+              “Next, I log in with an Admin or HR account to demonstrate the dashboard, monthly statistics, headcount, recent activity panels, and management-focused controls.”
+            </p>
+            <strong>Demo script 2</strong>
+            <span>Admin workflow explanation</span>
+          </article>
+          <article class="testimonial-card">
+            <p>
+              “Finally, I log in with an Employee account to show self-service features such as profile review, attendance history, payroll lookup, leave requests, and password management.”
+            </p>
+            <strong>Demo script 3</strong>
+            <span>Employee workflow explanation</span>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="landing-section reveal">
+      <div class="faq-panel">
+        <div class="section-heading" style="margin-bottom: 12px;">
+          <span>FAQ</span>
+          <h3>Common questions your lecturer or reviewer may ask</h3>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item">
+            <summary>Why separate Admin and Employee interfaces?</summary>
+            <div class="faq-content">Because the data density, navigation goals, and permissions are very different. Separate interfaces scale better when records become larger and workflows become more specialized.</div>
+          </details>
+          <details class="faq-item">
+            <summary>Why keep a shared login page as well?</summary>
+            <div class="faq-content">A shared login simplifies entry into the system and automatically routes users by role, while separate login pages still remain available for direct access and testing.</div>
+          </details>
+          <details class="faq-item">
+            <summary>What makes this more than a simple CRUD project?</summary>
+            <div class="faq-content">The project includes role-based workflows, leave approval logic, payroll generation, self-service pages, dashboard analytics, and connected admin-employee interactions.</div>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section id="about" class="landing-section reveal">
+      <div class="section-heading">
+        <span>Technology Overview</span>
+        <h3>Current implementation stack</h3>
+      </div>
+
+      <div class="tech-stack">
+        <span>ASP.NET Core Web API</span>
+        <span>Entity Framework Core</span>
+        <span>SQL Server</span>
+        <span>JWT Authentication</span>
+        <span>Swagger</span>
+        <span>Admin Frontend</span>
+        <span>Employee Portal</span>
+        <span>Role-based Routing</span>
+      </div>
+    </section>
+
+    <section class="landing-section reveal">
+      <div class="cta-panel">
+        <div class="section-heading" style="margin-bottom: 12px;">
+          <span style="color: rgba(255,255,255,0.82);">Ready to Explore</span>
+          <h3 style="color:#fff;">Choose the right workspace and continue into the system</h3>
+        </div>
+        <p>
+          Admin and HR users can move into the analytics dashboard, while employees can continue into their self-service workspace for profile, attendance, payroll, and leave operations.
+        </p>
+        <div class="cta-actions">
+          <a class="btn btn-primary" href="/login.html" id="ctaSharedLoginBtn">
+            <i class="bi bi-box-arrow-in-right"></i>
+            Login by Role
+          </a>
+          <a class="btn btn-outline" href="/admin/login.html" id="ctaAdminBtn">
+            <i class="bi bi-shield-lock-fill"></i>
+            Admin / HR Login
+          </a>
+          <a class="btn btn-outline" href="/employee/login.html" id="ctaEmployeeBtn">
+            <i class="bi bi-person-circle"></i>
+            Employee Portal
+          </a>
+        </div>
+        <div class="role-hint" id="roleHintText">Not signed in yet. Use Login by Role for automatic redirection.</div>
+      </div>
+    </section>
+  </main>
+
+  <div class="lightbox" id="imageLightbox" aria-hidden="true">
+    <div class="lightbox-inner">
+      <img id="lightboxImage" src="" alt="Preview image" />
+      <div class="lightbox-meta">
+        <div id="lightboxCaption">Preview</div>
+        <button class="lightbox-close" id="lightboxClose" type="button"><i class="bi bi-x-lg"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/landing.js"></script>
+</body>
+</html>

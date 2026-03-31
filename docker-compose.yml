@@ -1,0 +1,44 @@
+version: '3.9'
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: smart-hr-api
+    ports:
+      - "8080:8080"
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__DefaultConnection: "Server=db;Database=SmartHrDb;User Id=sa;Password=Your_strong_password123;TrustServerCertificate=True"
+      Redis__ConnectionString: "redis:6379"
+      JwtSettings__SecretKey: "THIS_IS_A_SUPER_SECRET_KEY_1234567890"
+      JwtSettings__Issuer: "SmartHrApi"
+      JwtSettings__Audience: "SmartHrClient"
+      JwtSettings__ExpiryMinutes: "480"
+      JwtSettings__RefreshTokenExpiryDays: "14"
+    depends_on:
+      - db
+      - redis
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: smart-hr-db
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: "Your_strong_password123"
+    ports:
+      - "14333:1433"
+    volumes:
+      - sql_data:/var/opt/mssql
+
+  redis:
+    image: redis:7-alpine
+    container_name: smart-hr-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  sql_data:
+  redis_data:

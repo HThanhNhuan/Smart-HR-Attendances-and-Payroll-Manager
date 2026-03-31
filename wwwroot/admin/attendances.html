@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Smart HR Admin - Attendances</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <link rel="stylesheet" href="/admin/admin.css" />
+</head>
+<body class="admin-body" data-page="attendances">
+  <div class="admin-shell">
+    <aside class="admin-sidebar" id="adminSidebar">
+      <div class="sidebar-top">
+        <div class="sidebar-brand">
+          <div class="sidebar-brand-icon"><i class="bi bi-buildings-fill"></i></div>
+          <div class="sidebar-brand-copy">
+            <h1>Smart HR</h1>
+            <p>Admin Console</p>
+          </div>
+        </div>
+        <button class="sidebar-toggle" id="adminSidebarToggle" type="button" aria-label="Toggle sidebar">
+          <i class="bi bi-layout-sidebar-inset"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-user">
+        <small>Signed in as</small>
+        <strong id="adminCurrentUser">User</strong>
+      </div>
+
+      <nav class="sidebar-nav">
+
+        <a class="sidebar-link" href="/admin/overview.html"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a>
+        <a class="sidebar-link" href="/admin/employees.html"><i class="bi bi-people-fill"></i><span>Employees</span></a>
+        <a class="sidebar-link" href="/admin/attendances.html"><i class="bi bi-calendar2-check-fill"></i><span>Attendances</span></a>
+        <a class="sidebar-link" href="/admin/payrolls.html"><i class="bi bi-cash-stack"></i><span>Payrolls</span></a>
+        <a class="sidebar-link" href="/admin/leaves.html"><i class="bi bi-journal-check"></i><span>Leave Requests</span></a>
+        <a class="sidebar-link" href="/admin/departments.html"><i class="bi bi-diagram-3-fill"></i><span>Departments</span></a>
+        <a class="sidebar-link" href="/admin/reports.html"><i class="bi bi-bar-chart-line-fill"></i><span>Reports</span></a>
+
+      </nav>
+
+      <button class="sidebar-logout" id="adminLogoutBtn" type="button">
+        <i class="bi bi-box-arrow-right"></i>
+        <span>Logout</span>
+      </button>
+    </aside>
+
+    <div class="sidebar-backdrop" id="adminSidebarBackdrop"></div>
+
+    <main class="admin-main">
+      <section class="topbar">
+        <div class="topbar-left">
+          <button class="main-toggle" id="adminMainToggle" type="button" aria-label="Toggle navigation">
+            <i class="bi bi-list"></i>
+          </button>
+          <div class="topbar-meta">
+            <span class="topbar-chip" id="adminRoleChip">Smart HR / Admin workspace</span>
+            <span class="topbar-live"><i class="bi bi-circle-fill"></i> Live API connected</span>
+          </div>
+        </div>
+
+        <div class="topbar-right">
+          <a class="btn btn-outline-secondary" href="/" id="toolbarHomeLink">Return to landing</a>
+        </div>
+      </section>
+
+      <section class="hero-panel">
+        <div class="hero-grid">
+          <div class="hero-copy">
+            <span class="hero-tag">Attendances</span>
+            <h1>Attendance Review</h1>
+            <p>Inspect filtered attendance records by month, employee, and status without crowding the overview page.</p>
+            <div class="note-list">
+              <div class="note-item"><i class="bi bi-lightning-charge-fill"></i><span>Backend and frontend are mapped by dedicated page responsibilities.</span></div>
+              <div class="note-item"><i class="bi bi-funnel-fill"></i><span>Search, filters, actions, and paging are isolated by module.</span></div>
+              <div class="note-item"><i class="bi bi-arrows-move"></i><span>This layout can keep growing when your real data becomes larger.</span></div>
+            </div>
+          </div>
+          <div class="hero-side">
+            
+<div class="side-card">
+  <h3>Filter mapping</h3>
+  <p>This page calls the attendance list endpoint with backend query parameters for employee, status, month, and year, then applies extra keyword search and paging on the frontend.</p>
+</div>
+<div class="side-card">
+  <h3>Why separate?</h3>
+  <p>Attendance data grows very quickly. A dedicated page keeps it readable and avoids mixing it into payroll or leave screens.</p>
+</div>
+
+          </div>
+        </div>
+      </section>
+
+      <div id="pageErrorHost"></div>
+
+
+<section class="toolbar-card compact-toolbar toolbar-inline-actions">
+  <div class="toolbar-grid">
+    <div><label class="form-label">Search</label><input id="attSearch" class="form-control" placeholder="Search by employee, note, status..." /></div>
+    <div><label class="form-label">Employee ID</label><input id="attEmployeeId" class="form-control" type="number" placeholder="Optional" /></div>
+    <div><label class="form-label">Status</label><select id="attStatus" class="form-select"><option value="">All</option><option>Present</option><option>Late</option><option>Absent</option><option>Leave</option><option>Remote</option></select></div>
+    <div><label class="form-label">Month</label><input id="attMonth" class="form-control" type="number" min="1" max="12" /></div>
+    <div><label class="form-label">Year</label><input id="attYear" class="form-control" type="number" min="2000" max="2100" /></div>
+    <div><label class="form-label">Page size</label><select id="attPageSize" class="form-select"><option>10</option><option>20</option><option>30</option></select></div>
+    <div class="toolbar-actions">
+      <button id="attApply" class="btn btn-primary" type="button"><i class="bi bi-funnel-fill"></i> Apply</button>
+      <button id="attReset" class="btn btn-outline-secondary" type="button">Reset</button>
+      <button id="attRefreshBtn" class="btn btn-outline-primary" type="button"><i class="bi bi-arrow-clockwise"></i> Refresh</button>
+    </div>
+  </div>
+</section>
+
+<section class="role-kpi-grid compact-grid" id="attKpiGrid" style="margin-bottom:20px;">
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-calendar2-week"></i><span>Attendance</span></div><span>Filtered Records</span><strong id="attKpiRecords">0</strong><small>Attendance records visible in the current operational slice.</small></div>
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-check2-all"></i><span>Quality</span></div><span>Reliable Days</span><strong id="attKpiReliable">0</strong><small>Records marked Present or Remote after filters are applied.</small></div>
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-exclamation-triangle"></i><span>Risk</span></div><span>Late / Absent Flags</span><strong id="attKpiFlags">0</strong><small>Signals that may need HR follow-up or employee correction.</small></div>
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-hourglass-bottom"></i><span>Hours</span></div><span>Average Hours</span><strong id="attKpiAverageHours">0h</strong><small>Average working hours based on the visible attendance result set.</small></div>
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-arrow-repeat"></i><span>Workflow</span></div><span>Pending Adjustments</span><strong id="attKpiPendingAdjustments">0</strong><small>Attendance-correction requests still waiting for Admin or HR review.</small></div>
+  <div class="role-kpi-card"><div class="mini-badge"><i class="bi bi-megaphone"></i><span>Focus</span></div><span>Current Focus</span><strong id="attKpiFocus">Attendance review snapshot</strong><small>Short talking point for demos and operational storytelling.</small></div>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-blue">
+    <div class="card-head"><div><h3>Quick Summary</h3><p>Frontend summary based on the filtered attendance result set.</p></div></div>
+    <div class="stat-grid" id="attQuickStats"></div>
+  </article>
+  <article class="section-card accent-purple">
+    <div class="card-head"><div><h3>Adjustment Queue</h3><p>Employee requests for attendance correction can be approved or rejected here.</p></div></div>
+    <div class="stat-grid" id="attAdjustmentStats"></div>
+  </article>
+</section>
+
+<section class="report-chart-grid" style="margin-bottom:20px;">
+  <article class="section-card accent-blue"><div class="card-head"><div><h3>Attendance Status Mix</h3><p>Managerial distribution of attendance statuses for the selected filter set.</p></div></div><div class="chart-box compact-chart"><canvas id="attStatusChart"></canvas></div></article>
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Attendance Trend Window</h3><p>Six-month trend ending at the selected month to support managerial comparisons.</p></div></div><div class="chart-box compact-chart"><canvas id="attTrendChart"></canvas></div></article>
+  <article class="section-card accent-green"><div class="card-head"><div><h3>Adjustment Workflow Mix</h3><p>Operational mix of pending, approved, and rejected correction requests.</p></div></div><div class="chart-box compact-chart"><canvas id="attAdjustmentChart"></canvas></div></article>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-cyan visual-story-card">
+    <div class="card-head"><div><h3>Attendance Highlights</h3><p>Auto-generated talking points based on the visible operational slice.</p></div></div>
+    <div class="story-split">
+      <div id="attHighlights" class="inline-metric-list"></div>
+      <div class="note-photo"><img src="https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1400&auto=format&fit=crop" alt="Attendance operations" /></div>
+    </div>
+  </article>
+  <article class="section-card accent-orange">
+    <div class="card-head"><div><h3>Recent Adjustment Audit Feed</h3><p>Latest correction events for screenshots, demos, and audit visibility.</p></div></div>
+    <div id="attAuditFeed" class="audit-trail-card"></div>
+  </article>
+</section>
+
+<section class="section-card accent-blue full-width-section">
+  <div class="card-head"><div><h3>Attendance Report Pack</h3><p>Export the current attendance slice or the adjustment queue in CSV, Excel, or PDF.</p></div></div>
+  <div class="toolbar-grid" style="grid-template-columns:1fr 1fr auto; margin-bottom:14px;">
+    <div><label class="form-label">Export format</label><select id="attExportFormat" class="form-select"><option value="csv">CSV</option><option value="xlsx">Excel (.xlsx)</option><option value="pdf">PDF</option></select></div>
+    <div><label class="form-label">Scope</label><input id="attExportScope" class="form-control" value="Filtered attendance operations snapshot" readonly /></div>
+    <div class="toolbar-actions"><button id="attPrintBtn" class="btn btn-outline-secondary" type="button"><i class="bi bi-printer"></i> Print Snapshot</button></div>
+  </div>
+  <div class="export-grid">
+    <button id="attExportAttendanceBtn" class="btn btn-primary" type="button"><i class="bi bi-file-earmark-spreadsheet"></i> Export Attendance Records</button>
+    <button id="attExportAdjustmentsBtn" class="btn btn-outline-primary" type="button"><i class="bi bi-arrow-repeat"></i> Export Adjustment Queue</button>
+    <button id="attExportAdjustmentAuditBtn" class="btn btn-outline-dark" type="button"><i class="bi bi-shield-check"></i> Export Adjustment Audit</button>
+  </div>
+  <div id="attExportMessage" class="small text-success" style="margin-top:12px;"></div>
+</section>
+
+<section class="equal-card-grid">
+  <article class="section-card accent-purple"><div class="card-head"><div><h3>Department Attendance Comparison</h3><p>Compare attendance volume, risks, and pending corrections by department.</p></div></div><div class="chart-box compact-chart"><canvas id="attDepartmentChart"></canvas></div></article>
+  <article class="section-card accent-green comparison-note-card">
+    <div class="card-head"><div><h3>Comparison Notes</h3><p>This panel mirrors the selected month and helps explain departmental workload differences.</p></div></div>
+    <div id="attComparisonNotes" class="inline-note">Department comparison will update after the page loads.</div>
+    <div class="comparison-photo"><img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?q=80&w=1400&auto=format&fit=crop" alt="Attendance comparison" /></div>
+  </article>
+</section>
+
+<section class="section-card accent-cyan full-width-section">
+  <div class="card-head"><div><h3>Department Attendance Breakdown</h3><p>Use this table to identify where attendance pressure and correction backlog are concentrated.</p></div></div>
+  <div class="table-wrap"><table class="table-modern"><thead><tr><th>Department</th><th>Headcount</th><th>Attendance</th><th>Present Rate</th><th>Late</th><th>Absent</th><th>Pending Adjustments</th><th>Payroll Coverage</th></tr></thead><tbody id="attDepartmentBody"></tbody></table></div>
+</section>
+
+<section class="section-card accent-blue full-width-section wide-table-card">
+  <div class="card-head table-card-head"><div><h3>Attendance Records</h3><p>Dedicated page for operational attendance review with full CRUD actions.</p></div><div class="section-head-actions"><button id="attCreateBtn" class="btn btn-success" type="button"><i class="bi bi-plus-circle"></i> Add Attendance</button></div></div>
+  <div class="table-wrap table-wrap-tall"><table class="table-modern"><thead><tr><th>Work Date</th><th>Employee Code</th><th>Employee</th><th>Department</th><th>Status</th><th>Check In</th><th>Check Out</th><th>Hours</th><th>Note</th><th>Actions</th></tr></thead><tbody id="attBody"></tbody></table></div>
+  <div id="attPaging"></div>
+</section>
+
+<section class="section-card accent-purple full-width-section" style="margin-top:20px;">
+  <div class="card-head"><div><h3>Attendance Adjustment Requests</h3><p>Review employee-submitted requests with a dedicated operational queue, filters, and audit details.</p></div></div>
+  <div class="inline-toolbar-grid" style="margin-bottom:18px;">
+    <div><label class="form-label">Keyword</label><input id="adjSearch" class="form-control" placeholder="Employee, department, reason, review note..." /></div>
+    <div><label class="form-label">Employee ID</label><input id="adjEmployeeId" class="form-control" type="number" placeholder="Optional" /></div>
+    <div><label class="form-label">Department</label><select id="adjDepartmentId" class="form-select"><option value="">All departments</option></select></div>
+    <div><label class="form-label">Request Status</label><select id="adjStatus" class="form-select"><option value="">All</option><option>Pending</option><option>Approved</option><option>Rejected</option></select></div>
+    <div><label class="form-label">Month</label><input id="adjMonth" class="form-control" type="number" min="1" max="12" /></div>
+    <div><label class="form-label">Year</label><input id="adjYear" class="form-control" type="number" min="2000" max="2100" /></div>
+    <div><label class="form-label">Specific Work Date</label><input id="adjWorkDate" class="form-control" type="date" /></div>
+    <div><label class="form-label">Page size</label><select id="adjPageSize" class="form-select"><option selected>8</option><option>12</option><option>20</option></select></div>
+  </div>
+  <div class="toolbar-actions" style="margin-bottom:18px;">
+    <button id="adjApply" class="btn btn-primary" type="button"><i class="bi bi-funnel-fill"></i> Apply queue filters</button>
+    <button id="adjReset" class="btn btn-outline-secondary" type="button">Reset</button>
+    <button id="adjRefreshBtn" class="btn btn-outline-primary" type="button"><i class="bi bi-arrow-clockwise"></i> Refresh queue</button>
+    <button id="adjExportBtn" class="btn btn-outline-success" type="button"><i class="bi bi-file-earmark-spreadsheet"></i> Export adjustments CSV</button>
+  </div>
+  <div class="table-wrap table-wrap-tall"><table class="table-modern"><thead><tr><th>Created</th><th>Employee</th><th>Department</th><th>Work Date</th><th>Requested Status</th><th>Requested Time</th><th>Reason</th><th>Request Status</th><th>Audit</th><th>Actions</th></tr></thead><tbody id="attAdjustmentBody"></tbody></table></div>
+  <div id="attAdjustmentPaging"></div>
+</section>
+
+
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="/admin/admin.js"></script>
+</body>
+</html>

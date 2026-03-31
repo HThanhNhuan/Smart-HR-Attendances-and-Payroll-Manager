@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Overtime - Smart HR</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" />
+  <link rel="stylesheet" href="/admin/admin.css" />
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="admin-portal-body" data-page="overtime">
+  <div class="admin-shell" id="adminShell">
+    <aside class="admin-sidebar">
+      <div class="sidebar-brand"><div class="brand-icon"><i class="bi bi-building"></i></div><div><h2>Smart HR</h2><p id="sidebarRoleSubtitle">Operations</p></div></div>
+      <div class="sidebar-user"><span>Signed in as</span><strong id="sidebarUsername">User</strong><small id="sidebarWorkspaceLabel">Workspace</small></div>
+      <nav class="sidebar-nav">
+        <a href="/admin/overview.html" class="sidebar-link" data-nav="overview"><i class="bi bi-grid-1x2-fill"></i><span>Overview</span></a>
+        <a href="/admin/employees.html" class="sidebar-link" data-nav="employees"><i class="bi bi-people-fill"></i><span>Employees</span></a>
+        <a href="/admin/attendances.html" class="sidebar-link" data-nav="attendances"><i class="bi bi-calendar2-check-fill"></i><span>Attendances</span></a>
+        <a href="/admin/payrolls.html" class="sidebar-link" data-nav="payrolls"><i class="bi bi-cash-stack"></i><span>Payrolls</span></a>
+        <a href="/admin/leaves.html" class="sidebar-link" data-nav="leaves"><i class="bi bi-journal-check"></i><span>Leaves</span></a>
+        <a href="/admin/departments.html" class="sidebar-link" data-nav="departments"><i class="bi bi-diagram-3-fill"></i><span>Departments</span></a>
+        <a href="/admin/reports.html" class="sidebar-link" data-nav="reports"><i class="bi bi-bar-chart-fill"></i><span>Reports</span></a>
+      </nav>
+      <button id="logoutBtn" class="btn btn-danger sidebar-logout"><i class="bi bi-box-arrow-right"></i> Logout</button>
+    </aside>
+    <main class="admin-main">
+      <div class="topbar"><div class="topbar-left"><div class="topbar-meta"><span class="topbar-chip">Overtime</span></div></div><div class="topbar-right"></div></div>
+      <div id="pageErrorHost"></div><div id="otInlineMessage" class="small text-danger mb-3"></div>
+      <section class="ops-hero">
+        <div class="hero-summary">
+          <span class="hero-tag">Overtime</span>
+          <h1>Overtime Requests & Approval</h1>
+          <p id="pageRoleHint">Review overtime submissions, compare approval pressure, and connect approved hours to payroll with a cleaner operational layout.</p>
+          <div class="note-list">
+            <div class="note-item"><i class="bi bi-check2-circle"></i><span>Approval actions stay in a dedicated queue instead of blending into the chart area.</span></div>
+            <div class="note-item"><i class="bi bi-graph-up-arrow"></i><span>Stats, filter state, and workflow history now read like a business dashboard instead of a raw admin page.</span></div>
+          </div>
+        </div>
+        <div class="hero-aside">
+          <div class="ops-kpi-grid">
+            <div class="ops-kpi"><span>Total Requests</span><strong id="otTotal">0</strong></div>
+            <div class="ops-kpi"><span>Pending</span><strong id="otPending">0</strong></div>
+            <div class="ops-kpi"><span>Approved Hours</span><strong id="otHours">0</strong></div>
+            <div class="ops-kpi"><span>Applied To Payroll</span><strong id="otApplied">0</strong></div>
+          </div>
+          <div class="data-hero-panel"><h3>Review flow</h3><p>Filter by status or month, then approve or reject inside the queue below.</p></div>
+        </div>
+      </section>
+      <section class="dashboard-panel ops-filter-card"><div class="row g-3"><div class="col-md-3"><select id="otStatusFilter" class="form-select"><option value="">All statuses</option><option>Pending</option><option>Approved</option><option>Rejected</option><option>Cancelled</option></select></div><div class="col-md-2"><input id="otMonthFilter" type="number" class="form-control" placeholder="Month"></div><div class="col-md-2"><input id="otYearFilter" type="number" class="form-control" placeholder="Year"></div><div class="col-md-3"><button class="btn btn-primary" id="otFilterBtn">Apply Filter</button></div></div></section>
+      <section class="ops-two-col">
+        <article class="dashboard-panel"><div class="section-heading"><div><h3>Overtime Workflow</h3><p class="text-muted">Compare pending vs approved vs rejected requests.</p></div></div><div class="chart-box"><canvas id="otChart"></canvas></div></article>
+        <article class="section-card accent-purple visual-story-card"><div class="card-head"><div><h3>Workflow Notes</h3><p>Use this side card to explain overtime pressure and payroll impact during demos.</p></div></div><div class="story-split reverse"><div class="note-photo"><img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1400&auto=format&fit=crop" alt="Overtime review" /></div><div class="inline-metric-list"><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Approved hours should rise before payroll generation.</span></div><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Pending requests represent cost and attendance pressure.</span></div><div class="inline-metric-item"><i class="bi bi-lightning-charge"></i><span>Rejected and cancelled items help explain review quality.</span></div></div></div></article>
+      </section>
+      <section class="dashboard-panel full-width-section"><div class="section-heading"><div><h3>Approval Queue</h3><p class="text-muted">Review overtime requests before payroll generation.</p></div></div><div class="table-responsive"><table class="table smart-table"><thead><tr><th>Date</th><th>Employee</th><th>Hours</th><th>Status</th><th>Reason</th><th>Action</th></tr></thead><tbody id="otTableBody"></tbody></table></div></section>
+    </main>
+    <div class="admin-backdrop" id="adminBackdrop"></div>
+  </div>
+  <script src="/admin/admin.js"></script>
+  <script>
+(() => {
+ const token = localStorage.getItem('token'); if(!token) return;
+ const headers = {'Authorization':`Bearer ${token}`,'Content-Type':'application/json'};
+ let chart = null, rows = [];
+ const msgHost = document.getElementById('otInlineMessage');
+ const setMsg = (m, ok=false) => { if(!msgHost) return; msgHost.className = `small mb-3 ${ok ? 'text-success' : 'text-danger'}`; msgHost.textContent = m || ''; };
+ const api = async (u,m='GET',b)=>{ const r=await fetch(u,{method:m,headers,body:b?JSON.stringify(b):undefined}); const ct=r.headers.get('content-type')||''; const data = ct.includes('json') ? await r.json().catch(()=>null) : await r.text().catch(()=> ''); if(!r.ok) throw new Error(typeof data === 'string' ? data : (data?.message || data?.title || `Request failed (${r.status})`)); return r.status===204?null:data; };
+ const buildUrl = ()=>{ const p=new URLSearchParams(); if(otStatusFilter.value) p.set('status',otStatusFilter.value); if(otMonthFilter.value) p.set('month',otMonthFilter.value); if(otYearFilter.value) p.set('year',otYearFilter.value); return '/api/OvertimeRequests'+(p.toString()?'?'+p.toString():''); };
+ const loadSummary = async()=>{ const p=new URLSearchParams(); if(otMonthFilter.value) p.set('month',otMonthFilter.value); if(otYearFilter.value) p.set('year',otYearFilter.value); const s=await api('/api/OvertimeRequests/summary'+(p.toString()?'?'+p.toString():'')); otTotal.textContent=s.totalRequests; otPending.textContent=s.pendingRequests; otHours.textContent=s.approvedHours; otApplied.textContent=s.appliedToPayroll; if(chart) chart.destroy(); chart = new Chart(document.getElementById('otChart'), {type:'doughnut', data:{labels:['Pending','Approved','Rejected','Cancelled'], datasets:[{data:[s.pendingRequests,s.approvedRequests,s.rejectedRequests,s.totalRequests-s.pendingRequests-s.approvedRequests-s.rejectedRequests], backgroundColor:['rgba(245,158,11,.82)','rgba(16,185,129,.82)','rgba(239,68,68,.82)','rgba(100,116,139,.82)']}]}, options:{maintainAspectRatio:false, plugins:{legend:{position:'bottom'}}}}); };
+ const load = async()=>{ rows = await api(buildUrl()); otTableBody.innerHTML = rows.length ? rows.map(x=>`<tr><td>${new Date(x.workDate).toLocaleDateString()}</td><td>${x.employeeCode} - ${x.fullName}</td><td>${x.hours}</td><td><span class="status-badge ${x.status.toLowerCase()}">${x.status}</span></td><td>${x.reason || '-'}</td><td>${x.status==='Pending'?`<button class="btn btn-sm btn-success me-1" data-approve-ot="${x.id}">Approve</button><button class="btn btn-sm btn-outline-danger" data-reject-ot="${x.id}">Reject</button>`:'-'}</td></tr>`).join('') : `<tr><td colspan="6" class="text-center text-muted py-4">No overtime requests found.</td></tr>`; otTableBody.querySelectorAll('[data-approve-ot]').forEach(btn=>btn.addEventListener('click',()=>review(btn.dataset.approveOt,'approve'))); otTableBody.querySelectorAll('[data-reject-ot]').forEach(btn=>btn.addEventListener('click',()=>review(btn.dataset.rejectOt,'reject'))); await loadSummary(); };
+ const review = async(id, action)=>{ const note = prompt(action==='approve' ? 'Approval note (optional):' : 'Rejection reason:', action==='approve' ? '' : ''); if(action==='reject' && !note) return; try { await api(`/api/OvertimeRequests/${id}/${action}`,'PUT', action==='approve' ? {approvalNote:note} : {rejectionReason:note}); setMsg(`Overtime request ${action}d successfully.`, true); await load(); } catch(err){ setMsg(err.message || `Failed to ${action} overtime request.`); } };
+ otFilterBtn.onclick = ()=> load().catch(err=>setMsg(err.message || 'Failed to load overtime requests.'));
+ load().catch(err=>setMsg(err.message || 'Failed to load overtime requests.'));
+})();
+</script>
+</body>
+</html>
