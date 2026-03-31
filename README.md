@@ -170,7 +170,6 @@ This design makes the system more realistic, clearer to use, and easier to scale
 
 ## Architecture Diagram (Text)
 
-<div align="center">
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │                        Smart HR Frontend                     │
