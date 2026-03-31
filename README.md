@@ -2,7 +2,7 @@
 
 <div align="center">
 # Smart HR
-**Nền tảng quản lý nhân sự toàn diện, định hướng kinh doanh với các phân hệ Chấm công, Lương, Nghỉ phép, Lịch làm việc, Làm thêm giờ và Trợ lý AI thông minh.**
+**Business-Oriented HR Operations Platform for Attendance, Payroll, Leave, Scheduling, Overtime, and AI-Assisted Review**
 
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-8.0-512BD4?logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-Backend-239120?logo=csharp&logoColor=white)
@@ -295,73 +295,83 @@ smart_hr_attendance&payroll_management/
 
 ## Screenshots & Visual Tour
 
-Khám phá giao diện người dùng trực quan và các tính năng mạnh mẽ của Smart HR qua các hình ảnh dưới đây. Để có cái nhìn tổng quan nhanh chóng, bạn có thể cân nhắc thêm một GIF hoặc video ngắn giới thiệu các luồng làm việc chính!
+Explore the intuitive user interface and powerful features of Smart HR through the images below. For a quick overview, consider adding a short GIF or video showcasing the main workflows!
 
-### Trang Đăng nhập
+### Login Page
 
 ![Landing Page](docs/screenshots/Login.png)
-_Giao diện đăng nhập đơn giản và an toàn, hỗ trợ phân quyền người dùng._
 
-### Bảng điều khiển Tổng quan của Admin
+<p align="center"><em>A simple and secure login interface with role-based access control.</em></p>
+
+### Admin Overview Dashboard
 
 ![Admin Overview](docs/screenshots/Admin/Overview/admin_overview_1.png)
-_Tổng quan toàn diện về tình hình nhân sự, chấm công, lương và các yêu cầu đang chờ xử lý, giúp Admin dễ dàng quản lý._
 
-### Trang Lương và Trợ lý AI
+<p align="center"><em>A comprehensive overview of HR status, attendance, payroll, and pending requests, enabling easy management for Admins.</em></p>
+
+### Payroll Page and AI Assistant
 
 ![Admin Payroll AI 1](docs/screenshots/Admin/Payrolls/Admin_payroll_1.png)
-_Quản lý bảng lương chi tiết với các bộ lọc mạnh mẽ._
-![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/Admin_payroll_2.png)
-_Trợ lý AI giúp phân tích và tóm tắt các điểm bất thường trong bảng lương, hỗ trợ ra quyết định nhanh chóng._
 
-### Bảng điều khiển Báo cáo
+<p align="center"><em>Detailed payroll management with powerful filtering capabilities.</em></p>
+![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/Admin_payroll_2.png)
+<p align="center"><em>The AI assistant helps analyze and summarize payroll anomalies, supporting quick decision-making.</em></p>
+
+### Reports Dashboard
 
 ![Admin Reports 1](docs/screenshots/Admin/Reports/Admin_reports_1.png)
-_Tổng hợp các báo cáo quan trọng về hoạt động nhân sự._
-![Admin Reports 2](docs/screenshots/Admin/Reports/Admin_reports_2.png)
-_Biểu đồ so sánh giữa các phòng ban, cung cấp cái nhìn sâu sắc về hiệu suất._
-![Admin Reports 3](docs/screenshots/Admin/Reports/Admin_reports_3.png)
-_Biểu đồ xu hướng hàng tháng, giúp theo dõi sự thay đổi và đưa ra dự báo._
 
-### Quy trình Phê duyệt Nghỉ phép
+<p align="center"><em>A summary of important reports on HR activities.</em></p>
+![Admin Reports 2](docs/screenshots/Admin/Reports/Admin_reports_2.png)
+<p align="center"><em>A comparison chart between departments, providing insights into performance.</em></p>
+![Admin Reports 3](docs/screenshots/Admin/Reports/Admin_reports_3.png)
+<p align="center"><em>A monthly trend chart to track changes and make forecasts.</em></p>
+
+### Leave Approval Workflow
 
 ![Leave Request](docs/screenshots/Admin/Leave_Requests/leave_request.png)
-_Quản lý và phê duyệt các yêu cầu nghỉ phép một cách hiệu quả._
 
-### Quản lý Ca làm việc & Lịch trình
+<p align="center"><em>Efficiently manage and approve leave requests.</em></p>
+
+### Shift & Schedule Management
 
 ![Schedule Management](docs/screenshots/Admin/Schedules/schedules.png)
-_Sắp xếp và quản lý lịch làm việc, ca kíp cho nhân viên._
 
-### Tổng quan Cổng tự phục vụ của Nhân viên
+<p align="center"><em>Arrange and manage work schedules and shifts for employees.</em></p>
+
+### Employee Self-Service Overview
 
 ![Employee Overview 1](docs/screenshots/Employees/Overview/Emp_overview_1.png)
-_Bảng điều khiển cá nhân hóa cho nhân viên, hiển thị thông tin chấm công, lương và yêu cầu nghỉ phép._
-![Employee Overview 2](docs/screenshots/Employees/Overview/Emp_overview_2.png)
-_Các chỉ số hiệu suất cá nhân và thông tin chi tiết về chấm công._
-![Employee Overview 3](docs/screenshots/Employees/Overview/Emp_overview_3.png)
-_Dòng thời gian hoạt động cá nhân, giúp nhân viên theo dõi các sự kiện quan trọng._
 
-### Trang Lương của Nhân viên
+<p align="center"><em>A personalized dashboard for employees, displaying attendance, payroll, and leave request information.</em></p>
+![Employee Overview 2](docs/screenshots/Employees/Overview/Emp_overview_2.png)
+<p align="center"><em>Individual performance indicators and detailed attendance information.</em></p>
+![Employee Overview 3](docs/screenshots/Employees/Overview/Emp_overview_3.png)
+<p align="center"><em>A personal activity timeline, helping employees track important events.</em></p>
+
+### Employee Payroll Page
 
 ![Employee Payroll](docs/screenshots/Employees/Payrolls/emp_payroll.png)
-_Nhân viên có thể xem lịch sử bảng lương của mình một cách dễ dàng._
 
-### Không gian làm việc của HR
+<p align="center"><em>Employees can easily view their payroll history.</em></p>
+
+### HR Workspace
 
 ![HR Workspace 1](docs/screenshots/Hr/Overview/Hr_overview_1.png)
-_Tổng quan hoạt động HR, tập trung vào các yêu cầu và quy trình cần xử lý._
-![HR Workspace 2](docs/screenshots/Hr/Overview/Hr_overview_2.png)
-_Các chỉ số KPI quan trọng cho HR, giúp theo dõi hiệu suất và khối lượng công việc._
-![HR Workspace 3](docs/screenshots/Hr/Overview/Hr_overview_3.png)
-_Biểu đồ tập trung của HR, cung cấp cái nhìn trực quan về các lĩnh vực ưu tiên._
 
-### Phê duyệt của Quản lý
+<p align="center"><em>An overview of HR operations, focusing on requests and processes that need handling.</em></p>
+![HR Workspace 2](docs/screenshots/Hr/Overview/Hr_overview_2.png)
+<p align="center"><em>Key KPI indicators for HR to track performance and workload.</em></p>
+![HR Workspace 3](docs/screenshots/Hr/Overview/Hr_overview_3.png)
+<p align="center"><em>A focused chart for HR, providing a visual overview of priority areas.</em></p>
+
+### Manager Approval Workspace
 
 ![Manager Approval 1](docs/screenshots/Manager/Overview/M_overview_1.png)
-_Bảng điều khiển tổng quan cho quản lý, tập trung vào các yêu cầu phê duyệt và giám sát trong phạm vi phòng ban._
+
+<p align="center"><em>An overview dashboard for managers, focusing on approval requests and monitoring within their department.</em></p>
 ![Manager Approval 2](docs/screenshots/Manager/Overview/M_overview_2.png)
-_Các chỉ số KPI dành riêng cho quản lý, giúp họ theo dõi hiệu suất và tình hình của đội ngũ._
+<p align="center"><em>Specific KPI indicators for managers to track the performance and status of their team.</em></p>
 
 ## Demo Accounts / Notes
 
