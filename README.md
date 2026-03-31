@@ -92,361 +92,51 @@ This design makes the system more realistic, clearer to use, and easier to scale
 
 ## Main Roles
 
-### 1. Admin
-Admin has organization-wide control.
-
-**Admin can:**
-- manage employees
-- manage departments and positions
-- manage attendance records
-- generate and review payroll
-- review leave workflows
-- review overtime workflows
-- manage schedules and shifts
-- review reports and dashboards
-- use AI payroll summary
-- monitor audit-heavy operational data
-- perform governance-oriented actions
-
----
-
-### 2. HR
-HR focuses on daily workforce operations.
-
-**HR can:**
-- manage employee operations
-- review attendance and adjustment workflows
-- review leave workflows
-- support payroll operations
-- use reports and dashboards
-- use AI summary for payroll insight
-- work in the Admin/HR business workspace
-
----
-
-### 3. Manager
-Manager works with limited scope.
-
-**Manager can:**
-- review leave requests within scope
-- review overtime requests within scope
-- view scoped operational reports
-- monitor team-level actions
-- work only with permitted department/team data
-
----
-
-### 4. Employee
-Employee uses a self-service portal.
-
-**Employee can:**
-- view personal attendance records
-- view personal payroll history
-- submit leave requests
-- submit overtime requests
-- track request status and timeline
-- update personal profile
-- change password
-- review recent HR activity affecting their records
-
----
-
-## Feature Coverage
-
-Below is the full functional scope of the current Smart HR system.
-
-### Authentication & Access Control
-- username/password login
-- role-based routing after login
-- Admin/HR/Manager workspace access
-- Employee self-service access
-- JWT authentication
-- refresh token direction
-- logout / revoke direction
-- protected APIs
-- protected page flow
-
----
-
-### Landing / Portal Separation
-- dedicated landing / login concept
-- separate Admin workspace and Employee workspace
-- cleaner multi-page business design
-- reduced overcrowding compared with single-page HR demos
-
----
-
-### Admin / HR Overview Dashboard
-- monthly/yearly filter
-- KPI blocks
-- governance-oriented cards
-- approval and audit feed
-- workforce health indicators
-- recent operational summaries
-- business-friendly overview layout
-
----
-
-### Employee Self-Service Overview
-- welcome panel
-- personal KPI cards
-- recent attendances
-- recent payrolls
-- recent leave requests
-- self-service timeline
-- workflow visibility
-- personal summary blocks
-
----
-
-### Employee Management
-- employee listing
-- employee search
-- department filter
-- status filter
-- pagination
-- view employee
-- add employee
-- edit employee
-- delete employee
-- role/account-linked employee visibility
-- employee summary cards
-
----
-
-### Department & Position Management
-- department listing
-- department search
-- department headcount summary
-- add / edit / delete department
-- position listing
-- position search
-- add / edit / delete position
-- employee count per position
-- role structure administration
-
----
-
-### Attendance Management
-- attendance list
-- filter by month/year/status/employee
-- add attendance
-- edit attendance
-- delete attendance
-- attendance KPI cards
-- hours summary
-- risk metrics
-- attendance chart
-- operational attendance review page
-
----
-
-### Employee Attendance Self-Service
-- personal attendance history
-- filter by month/year/date/status
-- export support area
-- self-service attendance summary
-- late / absent / remote visibility
-- personal work-pattern review
-
----
-
-### Attendance Adjustment Workflow
-- employee correction request
-- adjustment queue
-- pending / approved / rejected states
-- audit history
-- recent adjustment feed
-- workflow timeline visibility
-- summary cards for pending vs reviewed requests
-
----
-
-### Payroll Management
-- payroll listing
-- payroll filter by employee/month/year
-- search and paging
-- generate payroll for all employees
-- generate payroll for a single employee
-- payroll summary cards
-- payroll charts / trend / composition
-- payroll detail review direction
-- bonus / deduction visibility
-- print/export support area
-
----
-
-### Payroll Period Governance
-- payroll period lock UI concept
-- governance explanation panel
-- monthly lock awareness
-- designed to protect reviewed payroll periods
-- graceful fallback when period API is not fully configured
-
----
-
-### Employee Payroll Self-Service
-- personal payroll history
-- filter by month/year
-- payroll KPI summary
-- salary trend visualization
-- salary composition view
-- payroll history table
-- take-home salary visibility
-- employee-friendly payroll reading experience
-
----
-
-### Leave Workflow
-- employee leave submission
-- leave type selection
-- date range selection
-- reason entry
-- leave list and filtering
-- approve / reject review flow
-- approval note / reject note
-- pending / approved / rejected / cancelled states
-- leave summary cards
-- leave timeline / history support
-
----
-
-### Leave Balance Policy
-- leave balance-oriented service direction
-- annual leave structure
-- sick leave structure
-- remaining and used fields
-- pending-aware leave balance response model
-- policy-friendly structure for real HR logic
-
----
-
-### Overtime Workflow
-- employee overtime request submission
-- start / end time support
-- request filtering
-- pending / approved / rejected states
-- admin/hr/manager review
-- approved hours summary
-- payroll impact note
-- export direction
-- approval queue visibility
-
----
-
-### Shift & Schedule Management
-- reusable shift catalog
-- shift code / name / start / end / hours / notes
-- night-shift support
-- add / edit / delete shift
-- schedule assignment by work date
-- employee-to-shift assignment
-- lock / open row behavior
-- schedule notes
-- department-aware schedule listing
-
----
-
-### Reports & Business Summaries
-- dedicated reports page
-- monthly and yearly filters
-- department-level comparison
-- month-to-month trend chart
-- attendance summary
-- leave summary
-- payroll summary
-- operational highlight cards
-- open approval queue visibility
-- export support sections
-- business-facing reporting design
-
----
-
-### Audit / Operational Review
-- leave audit feed
-- payroll audit feed
-- attendance adjustment feed
-- workflow decision visibility
-- governance-oriented operational storytelling
-- employee self-service timeline
-
----
-
-### AI Payroll Summary Assistant
-- prompt template selector
-- department focus selector
-- helper / explanation block
-- custom instruction input
-- visible-context helper
-- result panel
-- cache-friendly repeated query design
-- payroll anomaly and executive-style summary assistance
-
----
-
-## AI Payroll Summary Assistant
-
-The **AI Payroll Summary Assistant** is one of the most distinctive features of this project.
-
-### Main use cases
-- summarize monthly payroll anomalies
-- identify unusual overtime impact
-- explain payroll pressure in HR-friendly language
-- generate executive-style payroll summaries
-- review payroll in department context
-- reuse prompt templates for consistency
-
-### UI components
-- Prompt template
-- Department focus
-- Custom instruction
-- Generate AI Summary
-- Use Visible Context
-- Prompt idea cards
-- Result / empty state area
-
-### Example prompts
-- “Summarize payroll anomalies for this month.”
-- “Which employees had unusual overtime impact on payroll?”
-- “Give HR a short executive brief for payroll and attendance pressure.”
-
----
-
-## Business Rules
-
-The project includes practical workflow-oriented rules beyond CRUD.
-
-### Role-Based Portal Separation
-- Employee should not use Admin pages
-- Admin / HR / Manager should not use Employee portal as normal users
-
-### Manager Scope
-- Manager only works within assigned scope
-- manager should not review out-of-scope workflows or reports
-
-### Leave Workflow
-- requests follow status transitions
-- approval/rejection can include notes
-- attendance conflict can block approval depending on configuration
-
-### Attendance Adjustment
-- employee requests correction instead of directly editing records
-- pending vs reviewed workload is visible operationally
-
-### Payroll Governance
-- payroll is generated by selected month/year
-- period lock concept protects reviewed payroll data
-- generate / adjust / delete behavior can be governed by period state
-
-### Overtime to Payroll Relationship
-- approved overtime is designed to influence payroll context
-- overtime review is connected to payroll understanding
-
-### Leave Balance
-- allocation / used / remaining structure is available
-- pending-aware balance direction exists for future strengthening
-
----
+### Role Summary
+
+| Role | Scope | Main Purpose | Workspace |
+|------|-------|--------------|-----------|
+| **Admin** | Organization-wide | Full operational and governance control | Admin / HR Business Workspace |
+| **HR** | Organization-wide HR operations | Daily HR workflows, payroll support, leave/attendance review | Admin / HR Business Workspace |
+| **Manager** | Assigned department/team scope | Scoped approval and monitoring | Admin / HR Business Workspace |
+| **Employee** | Personal records only | Self-service access to attendance, payroll, leave, overtime, and profile | Employee Self-Service Portal |
+
+### Role Capabilities Matrix
+
+| Feature / Permission | Admin | HR | Manager | Employee |
+|----------------------|:-----:|:--:|:-------:|:--------:|
+| View business dashboard | ✅ | ✅ | ✅ | ❌ |
+| View self-service dashboard | ❌ | ❌ | ❌ | ✅ |
+| Manage employees | ✅ | ✅ | ❌ | ❌ |
+| Manage departments | ✅ | ✅ | ❌ | ❌ |
+| Manage positions | ✅ | ✅ | ❌ | ❌ |
+| View attendance records | ✅ | ✅ | Scoped | Self only |
+| Add / edit / delete attendance | ✅ | ✅ | ❌ | ❌ |
+| Submit attendance adjustment request | ❌ | ❌ | ❌ | ✅ |
+| Review attendance adjustment requests | ✅ | ✅ | Scoped | ❌ |
+| View payroll records | ✅ | ✅ | Scoped | Self only |
+| Generate payroll | ✅ | ✅ | ❌ | ❌ |
+| Review payroll summaries | ✅ | ✅ | Scoped | ❌ |
+| Use AI Payroll Summary Assistant | ✅ | ✅ | Scoped / optional | ❌ |
+| Submit leave requests | ❌ | ❌ | ❌ | ✅ |
+| Approve / reject leave requests | ✅ | ✅ | Scoped | ❌ |
+| View leave history | ✅ | ✅ | Scoped | Self only |
+| Submit overtime requests | ❌ | ❌ | ❌ | ✅ |
+| Approve / reject overtime requests | ✅ | ✅ | Scoped | ❌ |
+| View schedules and shifts | ✅ | ✅ | Scoped | Self / assigned only |
+| Manage shift catalog | ✅ | ✅ | ❌ | ❌ |
+| Manage schedule assignments | ✅ | ✅ | ❌ | ❌ |
+| Access reports page | ✅ | ✅ | Scoped | ❌ |
+| Export reports | ✅ | ✅ | Scoped | Self-service exports only |
+| Update personal profile | ❌ | ❌ | ❌ | ✅ |
+| Change password | ✅ | ✅ | ✅ | ✅ |
+
+### Role Notes
+
+- **Admin** has the highest level of access and can operate across all HR modules.
+- **HR** works in the same business workspace as Admin but focuses on operational HR workflows.
+- **Manager** is restricted to assigned department/team scope and should not access out-of-scope data.
+- **Employee** only works inside the self-service portal and can only access personal records and requests.
 
 ## Tech Stack
 
@@ -610,8 +300,8 @@ smart_hr_attendance&payroll_management/
 ![Admin Overview](docs/screenshots/Admin/Overview/admin_overview_1.png)
 
 ### Payroll Page + AI Assistant
-![Admin Payroll AI 1](docs/screenshots/Admin/Payrolls/admin_payroll_1.png)
-![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/admin_payroll_2.png)
+![Admin Payroll AI 1](docs/screenshots/Admin/Payrolls/Admin_payroll_1.png)
+![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/Admin_payroll_2.png)
 
 ### Reports Dashboard
 ![Admin Reports 1](docs/screenshots/Admin/Reports/Admin_reports_1.png)
