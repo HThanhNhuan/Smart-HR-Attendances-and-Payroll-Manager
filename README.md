@@ -1,9 +1,8 @@
 # Smart HR Attendance & Payroll Management
 
 <div align="center">
-
-# Smart HR  
-**Business-Oriented HR Operations Platform for Attendance, Payroll, Leave, Scheduling, Overtime, and AI-Assisted Review**
+# Smart HR
+**Nền tảng quản lý nhân sự toàn diện, định hướng kinh doanh với các phân hệ Chấm công, Lương, Nghỉ phép, Lịch làm việc, Làm thêm giờ và Trợ lý AI thông minh.**
 
 ![ASP.NET Core](https://img.shields.io/badge/ASP.NET%20Core-8.0-512BD4?logo=dotnet&logoColor=white)
 ![C#](https://img.shields.io/badge/C%23-Backend-239120?logo=csharp&logoColor=white)
@@ -94,42 +93,42 @@ This design makes the system more realistic, clearer to use, and easier to scale
 
 ### Role Summary
 
-| Role | Scope | Main Purpose | Workspace |
-|------|-------|--------------|-----------|
-| **Admin** | Organization-wide | Full operational and governance control | Admin / HR Business Workspace |
-| **HR** | Organization-wide HR operations | Daily HR workflows, payroll support, leave/attendance review | Admin / HR Business Workspace |
-| **Manager** | Assigned department/team scope | Scoped approval and monitoring | Admin / HR Business Workspace |
-| **Employee** | Personal records only | Self-service access to attendance, payroll, leave, overtime, and profile | Employee Self-Service Portal |
+| Role         | Scope                           | Main Purpose                                                             | Workspace                     |
+| ------------ | ------------------------------- | ------------------------------------------------------------------------ | ----------------------------- |
+| **Admin**    | Organization-wide               | Full operational and governance control                                  | Admin / HR Business Workspace |
+| **HR**       | Organization-wide HR operations | Daily HR workflows, payroll support, leave/attendance review             | Admin / HR Business Workspace |
+| **Manager**  | Assigned department/team scope  | Scoped approval and monitoring                                           | Admin / HR Business Workspace |
+| **Employee** | Personal records only           | Self-service access to attendance, payroll, leave, overtime, and profile | Employee Self-Service Portal  |
 
 ### Role Capabilities Matrix
 
-| Feature / Permission | Admin | HR | Manager | Employee |
-|----------------------|:-----:|:--:|:-------:|:--------:|
-| View business dashboard | ✅ | ✅ | ✅ | ❌ |
-| View self-service dashboard | ❌ | ❌ | ❌ | ✅ |
-| Manage employees | ✅ | ✅ | ❌ | ❌ |
-| Manage departments | ✅ | ✅ | ❌ | ❌ |
-| Manage positions | ✅ | ✅ | ❌ | ❌ |
-| View attendance records | ✅ | ✅ | Scoped | Self only |
-| Add / edit / delete attendance | ✅ | ✅ | ❌ | ❌ |
-| Submit attendance adjustment request | ❌ | ❌ | ❌ | ✅ |
-| Review attendance adjustment requests | ✅ | ✅ | Scoped | ❌ |
-| View payroll records | ✅ | ✅ | Scoped | Self only |
-| Generate payroll | ✅ | ✅ | ❌ | ❌ |
-| Review payroll summaries | ✅ | ✅ | Scoped | ❌ |
-| Use AI Payroll Summary Assistant | ✅ | ✅ | Scoped / optional | ❌ |
-| Submit leave requests | ❌ | ❌ | ❌ | ✅ |
-| Approve / reject leave requests | ✅ | ✅ | Scoped | ❌ |
-| View leave history | ✅ | ✅ | Scoped | Self only |
-| Submit overtime requests | ❌ | ❌ | ❌ | ✅ |
-| Approve / reject overtime requests | ✅ | ✅ | Scoped | ❌ |
-| View schedules and shifts | ✅ | ✅ | Scoped | Self / assigned only |
-| Manage shift catalog | ✅ | ✅ | ❌ | ❌ |
-| Manage schedule assignments | ✅ | ✅ | ❌ | ❌ |
-| Access reports page | ✅ | ✅ | Scoped | ❌ |
-| Export reports | ✅ | ✅ | Scoped | Self-service exports only |
-| Update personal profile | ❌ | ❌ | ❌ | ✅ |
-| Change password | ✅ | ✅ | ✅ | ✅ |
+| Feature / Permission                  | Admin | HR  |      Manager      |         Employee          |
+| ------------------------------------- | :---: | :-: | :---------------: | :-----------------------: |
+| View business dashboard               |  ✅   | ✅  |        ✅         |            ❌             |
+| View self-service dashboard           |  ❌   | ❌  |        ❌         |            ✅             |
+| Manage employees                      |  ✅   | ✅  |        ❌         |            ❌             |
+| Manage departments                    |  ✅   | ✅  |        ❌         |            ❌             |
+| Manage positions                      |  ✅   | ✅  |        ❌         |            ❌             |
+| View attendance records               |  ✅   | ✅  |      Scoped       |         Self only         |
+| Add / edit / delete attendance        |  ✅   | ✅  |        ❌         |            ❌             |
+| Submit attendance adjustment request  |  ❌   | ❌  |        ❌         |            ✅             |
+| Review attendance adjustment requests |  ✅   | ✅  |      Scoped       |            ❌             |
+| View payroll records                  |  ✅   | ✅  |      Scoped       |         Self only         |
+| Generate payroll                      |  ✅   | ✅  |        ❌         |            ❌             |
+| Review payroll summaries              |  ✅   | ✅  |      Scoped       |            ❌             |
+| Use AI Payroll Summary Assistant      |  ✅   | ✅  | Scoped / optional |            ❌             |
+| Submit leave requests                 |  ❌   | ❌  |        ❌         |            ✅             |
+| Approve / reject leave requests       |  ✅   | ✅  |      Scoped       |            ❌             |
+| View leave history                    |  ✅   | ✅  |      Scoped       |         Self only         |
+| Submit overtime requests              |  ❌   | ❌  |        ❌         |            ✅             |
+| Approve / reject overtime requests    |  ✅   | ✅  |      Scoped       |            ❌             |
+| View schedules and shifts             |  ✅   | ✅  |      Scoped       |   Self / assigned only    |
+| Manage shift catalog                  |  ✅   | ✅  |        ❌         |            ❌             |
+| Manage schedule assignments           |  ✅   | ✅  |        ❌         |            ❌             |
+| Access reports page                   |  ✅   | ✅  |      Scoped       |            ❌             |
+| Export reports                        |  ✅   | ✅  |      Scoped       | Self-service exports only |
+| Update personal profile               |  ❌   | ❌  |        ❌         |            ✅             |
+| Change password                       |  ✅   | ✅  |        ✅         |            ✅             |
 
 ### Role Notes
 
@@ -141,6 +140,7 @@ This design makes the system more realistic, clearer to use, and easier to scale
 ## Tech Stack
 
 ### Backend
+
 - ASP.NET Core Web API
 - C#
 - Entity Framework Core
@@ -152,6 +152,7 @@ This design makes the system more realistic, clearer to use, and easier to scale
 - DTO-based request/response structure
 
 ### Frontend
+
 - HTML
 - CSS
 - JavaScript
@@ -160,6 +161,7 @@ This design makes the system more realistic, clearer to use, and easier to scale
 - Chart.js
 
 ### Dev / Ops
+
 - Visual Studio / .NET 8 SDK
 - Docker
 - Docker Compose
@@ -291,45 +293,75 @@ smart_hr_attendance&payroll_management/
 
 ---
 
-## Screenshots
+## Screenshots & Visual Tour
 
-### Landing Page
+Khám phá giao diện người dùng trực quan và các tính năng mạnh mẽ của Smart HR qua các hình ảnh dưới đây. Để có cái nhìn tổng quan nhanh chóng, bạn có thể cân nhắc thêm một GIF hoặc video ngắn giới thiệu các luồng làm việc chính!
+
+### Trang Đăng nhập
+
 ![Landing Page](docs/screenshots/Login.png)
+_Giao diện đăng nhập đơn giản và an toàn, hỗ trợ phân quyền người dùng._
 
-### Admin Overview Dashboard
+### Bảng điều khiển Tổng quan của Admin
+
 ![Admin Overview](docs/screenshots/Admin/Overview/admin_overview_1.png)
+_Tổng quan toàn diện về tình hình nhân sự, chấm công, lương và các yêu cầu đang chờ xử lý, giúp Admin dễ dàng quản lý._
 
-### Payroll Page + AI Assistant
+### Trang Lương và Trợ lý AI
+
 ![Admin Payroll AI 1](docs/screenshots/Admin/Payrolls/Admin_payroll_1.png)
+_Quản lý bảng lương chi tiết với các bộ lọc mạnh mẽ._
 ![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/Admin_payroll_2.png)
+_Trợ lý AI giúp phân tích và tóm tắt các điểm bất thường trong bảng lương, hỗ trợ ra quyết định nhanh chóng._
 
-### Reports Dashboard
+### Bảng điều khiển Báo cáo
+
 ![Admin Reports 1](docs/screenshots/Admin/Reports/Admin_reports_1.png)
+_Tổng hợp các báo cáo quan trọng về hoạt động nhân sự._
 ![Admin Reports 2](docs/screenshots/Admin/Reports/Admin_reports_2.png)
+_Biểu đồ so sánh giữa các phòng ban, cung cấp cái nhìn sâu sắc về hiệu suất._
 ![Admin Reports 3](docs/screenshots/Admin/Reports/Admin_reports_3.png)
+_Biểu đồ xu hướng hàng tháng, giúp theo dõi sự thay đổi và đưa ra dự báo._
 
-### Leave Approval Workflow
+### Quy trình Phê duyệt Nghỉ phép
+
 ![Leave Request](docs/screenshots/Admin/Leave_Requests/leave_request.png)
+_Quản lý và phê duyệt các yêu cầu nghỉ phép một cách hiệu quả._
 
-### Shift & Schedule Management
+### Quản lý Ca làm việc & Lịch trình
+
 ![Schedule Management](docs/screenshots/Admin/Schedules/schedules.png)
+_Sắp xếp và quản lý lịch làm việc, ca kíp cho nhân viên._
 
-### Employee Self-Service Overview
+### Tổng quan Cổng tự phục vụ của Nhân viên
+
 ![Employee Overview 1](docs/screenshots/Employees/Overview/Emp_overview_1.png)
+_Bảng điều khiển cá nhân hóa cho nhân viên, hiển thị thông tin chấm công, lương và yêu cầu nghỉ phép._
 ![Employee Overview 2](docs/screenshots/Employees/Overview/Emp_overview_2.png)
+_Các chỉ số hiệu suất cá nhân và thông tin chi tiết về chấm công._
 ![Employee Overview 3](docs/screenshots/Employees/Overview/Emp_overview_3.png)
+_Dòng thời gian hoạt động cá nhân, giúp nhân viên theo dõi các sự kiện quan trọng._
 
-### Employee Payroll Page
+### Trang Lương của Nhân viên
+
 ![Employee Payroll](docs/screenshots/Employees/Payrolls/emp_payroll.png)
+_Nhân viên có thể xem lịch sử bảng lương của mình một cách dễ dàng._
 
-### HR Workspace
+### Không gian làm việc của HR
+
 ![HR Workspace 1](docs/screenshots/Hr/Overview/Hr_overview_1.png)
+_Tổng quan hoạt động HR, tập trung vào các yêu cầu và quy trình cần xử lý._
 ![HR Workspace 2](docs/screenshots/Hr/Overview/Hr_overview_2.png)
+_Các chỉ số KPI quan trọng cho HR, giúp theo dõi hiệu suất và khối lượng công việc._
 ![HR Workspace 3](docs/screenshots/Hr/Overview/Hr_overview_3.png)
+_Biểu đồ tập trung của HR, cung cấp cái nhìn trực quan về các lĩnh vực ưu tiên._
 
-### Manager Approval
+### Phê duyệt của Quản lý
+
 ![Manager Approval 1](docs/screenshots/Manager/Overview/M_overview_1.png)
+_Bảng điều khiển tổng quan cho quản lý, tập trung vào các yêu cầu phê duyệt và giám sát trong phạm vi phòng ban._
 ![Manager Approval 2](docs/screenshots/Manager/Overview/M_overview_2.png)
+_Các chỉ số KPI dành riêng cho quản lý, giúp họ theo dõi hiệu suất và tình hình của đội ngũ._
 
 ## Demo Accounts / Notes
 
@@ -337,13 +369,16 @@ smart_hr_attendance&payroll_management/
 > For public GitHub usage, describe roles only or use dummy demo credentials.
 
 ### Suggested demo roles
+
 - Admin
 - HR
 - Manager
 - Employee
 
 ### Demo note
+
 Before demo:
+
 - seed sufficient data
 - prepare month/year with good charts
 - prepare payroll data for AI summary
@@ -354,6 +389,7 @@ Before demo:
 ## How to Run Locally
 
 ### Prerequisites
+
 Make sure you have:
 
 - .NET 8 SDK
@@ -363,6 +399,7 @@ Make sure you have:
 - Docker Desktop (optional)
 
 ### Run steps
+
 1. Clone the repository
 2. Open the solution in Visual Studio
 3. Configure `appsettings.json` and `appsettings.Development.json`
@@ -373,6 +410,7 @@ Make sure you have:
 8. Open the frontend pages under `wwwroot/admin` or `wwwroot/employee`
 
 ### Optional Redis local run
+
 ```bash
 docker run -d --name smart-hr-redis -p 6379:6379 redis:7-alpine
 ```
@@ -394,6 +432,7 @@ docker compose -f "your_path_project" stop redis db
 ```
 
 Typical services:
+
 - API
 - SQL Server
 - Redis
@@ -407,6 +446,7 @@ Typical services:
 The current project covers these API areas:
 
 ### Auth APIs
+
 - login
 - refresh token
 - logout
@@ -414,6 +454,7 @@ The current project covers these API areas:
 - change password
 
 ### Dashboard APIs
+
 - overview
 - department headcount
 - recent leaves
@@ -422,17 +463,20 @@ The current project covers these API areas:
 - employee status summary
 
 ### Employee APIs
+
 - list/search/filter
 - create/update/delete
 - my profile update
 
 ### Attendance APIs
+
 - list/filter
 - create/update/delete
 - my attendances
 - adjustment workflow support
 
 ### Payroll APIs
+
 - list/filter
 - generate all
 - generate single
@@ -441,6 +485,7 @@ The current project covers these API areas:
 - AI summary direction
 
 ### Leave APIs
+
 - create request
 - query/filter
 - approve/reject
@@ -448,11 +493,13 @@ The current project covers these API areas:
 - leave balance direction
 
 ### Department / Position APIs
+
 - CRUD operations
 - search/filter
 - organizational structure support
 
 ### Overtime / Schedule / Reports APIs
+
 - workflow-specific support depending on current build stage
 
 ---
@@ -462,27 +509,33 @@ The current project covers these API areas:
 This project includes more than UI and CRUD.
 
 ### Authentication
+
 - JWT auth
 - refresh token direction
 - logout revoke direction
 
 ### Cache
+
 - Redis direction
 - dashboard/report/AI summary/leave balance cache support
 
 ### Logging & Stability
+
 - structured logging direction
 - global exception handling direction
 - runtime stabilization effort
 - graceful no-data / fallback states
 
 ### Audit
+
 - audit-aware operational feeds
 - approval/rejection visibility
 - self-service timeline direction
 
 ### Test Readiness
+
 Strong candidates for unit/integration tests:
+
 - payroll computation
 - leave balance policy
 - auth flow
@@ -491,6 +544,7 @@ Strong candidates for unit/integration tests:
 - AI summary endpoint
 
 ### Deployment Readiness
+
 - Dockerfile direction
 - docker-compose direction
 - configuration separation
@@ -514,7 +568,9 @@ A good 5–7 minute demo can follow this order:
 10. Show self-service overview, payroll, leave, and overtime
 
 ### Why this demo flow works
+
 It demonstrates:
+
 - role separation
 - workflow depth
 - business dashboards
@@ -526,6 +582,7 @@ It demonstrates:
 ## Future Improvements
 
 Potential next steps:
+
 - finalize payroll period lock backend APIs
 - improve integration test separation
 - strengthen Docker run consistency
@@ -543,6 +600,7 @@ Potential next steps:
 **Smart HR** is designed to be a **portfolio-ready, business-oriented HR management system**.
 
 It demonstrates:
+
 - multiple business modules
 - multiple roles
 - workflow-based operations
