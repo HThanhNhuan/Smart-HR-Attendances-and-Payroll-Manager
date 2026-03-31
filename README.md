@@ -170,6 +170,7 @@ This design makes the system more realistic, clearer to use, and easier to scale
 
 ## Architecture Diagram (Text)
 
+<div align="center">
 ```text
 ┌──────────────────────────────────────────────────────────────┐
 │                        Smart HR Frontend                     │
@@ -299,79 +300,123 @@ Explore the intuitive user interface and powerful features of Smart HR through t
 
 ### Login Page
 
-![Landing Page](docs/screenshots/Login.png)
-
-<p align="center"><em>A simple and secure login interface with role-based access control.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Login/Dashboard.png" alt="Landing Page" width="800">
+  <br>
+  <em>A simple and secure login interface with role-based access control.</em>
+</p>
 
 ### Admin Overview Dashboard
 
-![Admin Overview](docs/screenshots/Admin/Overview/admin_overview_1.png)
-
-<p align="center"><em>A comprehensive overview of HR status, attendance, payroll, and pending requests, enabling easy management for Admins.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Overview/admin_overview_1.png" alt="Admin Overview" width="800">
+  <br>
+  <em>A comprehensive overview of HR status, attendance, payroll, and pending requests, enabling easy management for Admins.</em>
+</p>
 
 ### Payroll Page and AI Assistant
 
-![Admin Payroll AI 1](docs/screenshots/Admin/Payrolls/Admin_payroll_1.png)
-
-<p align="center"><em>Detailed payroll management with powerful filtering capabilities.</em></p>
-![Admin Payroll AI 2](docs/screenshots/Admin/Payrolls/Admin_payroll_2.png)
-<p align="center"><em>The AI assistant helps analyze and summarize payroll anomalies, supporting quick decision-making.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Payrolls/Admin_payroll_1.png" alt="Admin Payroll AI 1" width="800">
+  <br>
+  <em>Detailed payroll management with powerful filtering capabilities.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Payrolls/Admin_payroll_2.png" alt="Admin Payroll AI 2" width="800">
+  <br>
+  <em>The AI assistant helps analyze and summarize payroll anomalies, supporting quick decision-making.</em>
+</p>
 
 ### Reports Dashboard
 
-![Admin Reports 1](docs/screenshots/Admin/Reports/Admin_reports_1.png)
-
-<p align="center"><em>A summary of important reports on HR activities.</em></p>
-![Admin Reports 2](docs/screenshots/Admin/Reports/Admin_reports_2.png)
-<p align="center"><em>A comparison chart between departments, providing insights into performance.</em></p>
-![Admin Reports 3](docs/screenshots/Admin/Reports/Admin_reports_3.png)
-<p align="center"><em>A monthly trend chart to track changes and make forecasts.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Reports/Admin_reports_1.png" alt="Admin Reports 1" width="800">
+  <br>
+  <em>A summary of important reports on HR activities.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Reports/Admin_reports_2.png" alt="Admin Reports 2" width="800">
+  <br>
+  <em>A comparison chart between departments, providing insights into performance.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Reports/Admin_reports_3.png" alt="Admin Reports 3" width="800">
+  <br>
+  <em>A monthly trend chart to track changes and make forecasts.</em>
+</p>
 
 ### Leave Approval Workflow
 
-![Leave Request](docs/screenshots/Admin/Leave_Requests/leave_request.png)
-
-<p align="center"><em>Efficiently manage and approve leave requests.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Leave_Requests/leave_request.png" alt="Leave Request" width="800">
+  <br>
+  <em>Efficiently manage and approve leave requests.</em>
+</p>
 
 ### Shift & Schedule Management
 
-![Schedule Management](docs/screenshots/Admin/Schedules/schedules.png)
-
-<p align="center"><em>Arrange and manage work schedules and shifts for employees.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Admin/Schedules/schedules.png" alt="Schedule Management" width="800">
+  <br>
+  <em>Arrange and manage work schedules and shifts for employees.</em>
+</p>
 
 ### Employee Self-Service Overview
 
-![Employee Overview 1](docs/screenshots/Employees/Overview/Emp_overview_1.png)
-
-<p align="center"><em>A personalized dashboard for employees, displaying attendance, payroll, and leave request information.</em></p>
-![Employee Overview 2](docs/screenshots/Employees/Overview/Emp_overview_2.png)
-<p align="center"><em>Individual performance indicators and detailed attendance information.</em></p>
-![Employee Overview 3](docs/screenshots/Employees/Overview/Emp_overview_3.png)
-<p align="center"><em>A personal activity timeline, helping employees track important events.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Employees/Overview/Emp_overview_1.png" alt="Employee Overview 1" width="800">
+  <br>
+  <em>A personalized dashboard for employees, displaying attendance, payroll, and leave request information.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Employees/Overview/Emp_overview_2.png" alt="Employee Overview 2" width="800">
+  <br>
+  <em>Individual performance indicators and detailed attendance information.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Employees/Overview/Emp_overview_3.png" alt="Employee Overview 3" width="800">
+  <br>
+  <em>A personal activity timeline, helping employees track important events.</em>
+</p>
 
 ### Employee Payroll Page
 
-![Employee Payroll](docs/screenshots/Employees/Payrolls/emp_payroll.png)
-
-<p align="center"><em>Employees can easily view their payroll history.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Employees/Payrolls/emp_payroll.png" alt="Employee Payroll" width="800">
+  <br>
+  <em>Employees can easily view their payroll history.</em>
+</p>
 
 ### HR Workspace
 
-![HR Workspace 1](docs/screenshots/Hr/Overview/Hr_overview_1.png)
-
-<p align="center"><em>An overview of HR operations, focusing on requests and processes that need handling.</em></p>
-![HR Workspace 2](docs/screenshots/Hr/Overview/Hr_overview_2.png)
-<p align="center"><em>Key KPI indicators for HR to track performance and workload.</em></p>
-![HR Workspace 3](docs/screenshots/Hr/Overview/Hr_overview_3.png)
-<p align="center"><em>A focused chart for HR, providing a visual overview of priority areas.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Hr/Overview/Hr_overview_1.png" alt="HR Workspace 1" width="800">
+  <br>
+  <em>An overview of HR operations, focusing on requests and processes that need handling.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Hr/Overview/Hr_overview_2.png" alt="HR Workspace 2" width="800">
+  <br>
+  <em>Key KPI indicators for HR to track performance and workload.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Hr/Overview/Hr_overview_3.png" alt="HR Workspace 3" width="800">
+  <br>
+  <em>A focused chart for HR, providing a visual overview of priority areas.</em>
+</p>
 
 ### Manager Approval Workspace
 
-![Manager Approval 1](docs/screenshots/Manager/Overview/M_overview_1.png)
-
-<p align="center"><em>An overview dashboard for managers, focusing on approval requests and monitoring within their department.</em></p>
-![Manager Approval 2](docs/screenshots/Manager/Overview/M_overview_2.png)
-<p align="center"><em>Specific KPI indicators for managers to track the performance and status of their team.</em></p>
+<p align="center">
+  <img src="docs/screenshots/Manager/Overview/M_overview_1.png" alt="Manager Approval 1" width="800">
+  <br>
+  <em>An overview dashboard for managers, focusing on approval requests and monitoring within their department.</em>
+</p>
+<p align="center">
+  <img src="docs/screenshots/Manager/Overview/M_overview_2.png" alt="Manager Approval 2" width="800">
+  <br>
+  <em>Specific KPI indicators for managers to track the performance and status of their team.</em>
+</p>
 
 ## Demo Accounts / Notes
 
